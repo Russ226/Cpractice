@@ -1,0 +1,15 @@
+Aghora,Aghora,Other,Satya,2,8474919,mp3,F:\music\Music\Aghora - Aghora\Aghora - Aghora\02 - Satya.Mp3
+
+Aghora,Aghora,Other,Transfiguration,3,7473081,mp3,F:\music\Music\Aghora - Aghora\Aghora - Aghora\03 - Transfiguration.Mp3
+
+Aghora,Aghora,Other,Frames,4,10184582,mp3,F:\music\Music\Aghora - Aghora\Aghora - Aghora\04 - Frames.Mp3
+
+Aghora,Aghora,Other,Mind's Reality,5,6172182,mp3,F:\music\Music\Aghora - Aghora\Aghora - Aghora\05 - Mind's Reality.Mp3
+
+Aghora,Aghora,Other,Kali Ynga,6,8043589,mp3,F:\music\Music\Aghora - Aghora\Aghora - Aghora\06 - Kali Ynga.Mp3
+
+Aghora,Aghora,Other,Givatma,7,16272786,mp3,F:\music\Music\Aghora - Aghora\Aghora - Aghora\07 - Givatma.Mp3
+
+Aghora,Aghora,Other,Existence,8,9211576,mp3,F:\music\Music\Aghora - Aghora\Aghora - Aghora\08 - Existence.Mp3
+
+Aghora,Aghora,Other,Anugraha,9,6742691,mp3,F:\music\Music\Aghora - Aghora\Aghora - Aghora\09 - Anugraha.Mp3
