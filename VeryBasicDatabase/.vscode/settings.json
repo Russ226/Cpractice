@@ -1,7 +1,7 @@
 {
     "C_Cpp.errorSquiggles": "enabled",
     "files.associations": {
-        "basiclinklist.h": "c",
+        "person.h": "c",
         "stdlib.h": "c"
     }
 }
