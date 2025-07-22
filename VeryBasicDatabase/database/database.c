@@ -38,8 +38,9 @@ void insertArr(IndexArr *arr, struct Index i){
 }
 
 void deleteArr(IndexArr *arr){
-    // TODDO free each indivdual pointer in array
-    free(arr->arr);
+    for(int i =0; i < arr->len; i++){
+        free(&arr->arr[i]);
+    }
     arr->arr = NULL;
     free(arr);
     arr = NULL;
