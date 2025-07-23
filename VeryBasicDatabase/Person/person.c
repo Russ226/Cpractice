@@ -35,18 +35,23 @@ char *convert_int_str(int v){
     return ret_item;
 }
 
-char *person_row_rep(struct Person *p){
-    char* serialized = malloc(sizeof(p) + 8 * 4);
-    char* converted_int = convert_int_str(p->age);
+char *serialize_person(struct Person *p, int id){
+    char* serialized = malloc(sizeof(p) + sizeof(int) + 8 * 4);
+    char* converted_age = convert_int_str(p->age);
+    char* converted_id = convert_int_str(id);
 
     strcpy(serialized, "(");
+    strcat(serialized, converted_id);
+    strcat(serialized, ",");
     strcat(serialized, p->firstName);
     strcat(serialized, ",");
     strcat(serialized, p->lastName);
     strcat(serialized, ",");
-    strcat(serialized, converted_int);
+    strcat(serialized, converted_age);
     strcat(serialized, ")");
 
-    free(converted_int);
+    free(converted_id);
+    free(converted_age);
+
     return serialized;
 }

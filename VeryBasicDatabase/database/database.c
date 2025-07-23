@@ -1,22 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-
-
-
-
-
-
+#include <assert.h>
+#include "../Person/person.h"
 
 struct Index{
     int id;
     int loc;
-};
-
-struct PersonDb{
-    int next_id;
-    FILE *file;
-    IndexArr id_index;
 };
 
 typedef struct IndexArr{
@@ -24,6 +13,15 @@ typedef struct IndexArr{
     size_t len;
     size_t cap;    
 }IndexArr;
+
+
+struct PersonDb{
+    int next_id;
+    FILE *file;
+    IndexArr *id_index;
+};
+
+
 
 void insertArr(IndexArr *arr, struct Index i){
     if(arr->len == arr->cap){
@@ -53,4 +51,48 @@ IndexArr* createDynamicArray(){
     d_arr->len = 0;
     d_arr->cap = 1;
     return d_arr;
+}
+
+struct PersonDb *create_personDb(){
+    char *db_file_path = "C:\\Users\\russ2\\Desktop\\CPractice\\VeryBasicDatabase\\testFile.txt";
+    FILE *fp = fopen(db_file_path, "r+");
+    if(fp == NULL){
+        fp = fopen("textFile.txt" ,"a");
+    }
+
+    IndexArr *a = createDynamicArray();
+
+    struct PersonDb *ret_Item = malloc(sizeof(struct PersonDb));
+    ret_Item->file = fp;
+    ret_Item->id_index = a;
+    ret_Item->next_id = 0;
+
+    return ret_Item;
+}
+//read
+
+//insert
+void insert_person(struct PersonDb *db, struct Person *p){
+    // add to index the start location of new person
+    char *insert_str =  serialize_person(p, db->next_id);
+    db->next_id++;
+
+    fseek(db->file, 0, SEEK_END);
+    fprintf(db->file, insert_str);
+
+    free(insert_str);
+    free(p);
+} 
+
+//delete
+
+//update
+
+
+
+int main(){
+    struct PersonDb *db = create_personDb();
+    struct Person *person_save = create_new_person("bob", "smith", 20);
+    insert_person(db, person_save);
+    return 0;
 }
