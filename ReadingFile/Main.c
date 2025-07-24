@@ -47,18 +47,35 @@ void read_from_file(){
 
 }
 
-
-int main(){
-    FILE *fp = fopen("C:\\Users\\russ2\\Desktop\\CPractice\\ReadingFile\\testFile2.txt", "w");
+void read_test_number_from_file(){
+    FILE *fp = fopen("C:\\Users\\russ2\\Desktop\\CPractice\\ReadingFile\\testFile2.txt", "r+");
     char  *write_str1 = "test 1";
+    char  *write_str2 = "test 2";
+    char  *write_str3 = "test 3";
     printf("\n\n");
     printf("size of file before write 1: %d\n ", ftell(fp));
-
+    
     fprintf(fp, write_str1);
-    fseek (fp, 0, SEEK_END);
-    printf("size of string to write 1: %d\n", sizeof(write_str1));
-    printf("size of file after write 1: %d\n", ftell(fp));
+    int write1 = ftell(fp);
+    
+    fprintf(fp, write_str2);
+    int write2 = ftell(fp);
 
+    fprintf(fp, write_str3);
+    int write3 = ftell(fp);
+
+    fseek(fp, write1-1, SEEK_SET);
+    printf("write 1 number: %c\n", getc(fp));
+
+    fseek(fp, write2-1, SEEK_SET);
+    printf("write 2 number: %c\n", getc(fp));
+
+    fseek(fp, write3-1, SEEK_SET);
+    printf("write 3 number: %c\n", getc(fp));
+}
+
+int main(){
+    
 
     return 0;
 }
