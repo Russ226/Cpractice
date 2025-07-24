@@ -34,7 +34,17 @@ void insertArr(IndexArr *arr, struct Index i){
     arr->arr[arr->len] = i;
     arr->len++;
 }
+void delete_item(IndexArr *arr, int index){
+    if(index >= arr->len || arr->len == 0){
+        return;
+    }
 
+    for (int i = index; i < arr->len - 1; i++) {
+        arr[i] = arr[i + 1];
+    }
+
+    arr->len--;
+}
 void deleteArr(IndexArr *arr){
     for(int i =0; i < arr->len; i++){
         free(&arr->arr[i]);
@@ -74,11 +84,18 @@ struct PersonDb *create_personDb(){
 //insert
 void insert_person(struct PersonDb *db, struct Person *p){
     // add to index the start location of new person
+    struct Index new_ind;
     char *insert_str =  serialize_person(p, db->next_id);
+    new_ind.id = db->next_id;
     db->next_id++;
 
     fseek(db->file, 0, SEEK_END);
+    int loc_id = ftell(db) + 2;
     fprintf(db->file, insert_str);
+
+    new_ind.loc = loc_id;
+
+    insertArr(db, new_ind);
 
     free(insert_str);
     free(p);
