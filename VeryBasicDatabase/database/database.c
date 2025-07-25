@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 #include "../Person/person.h"
 
 struct Index{
@@ -26,25 +25,27 @@ struct PersonDb{
 void insertArr(IndexArr *arr, struct Index i){
     if(arr->len == arr->cap){
         arr->cap *= 2;
-        size_t newArrSize = sizeof(struct Index) * (arr->cap); 
+        size_t newArrSize = sizeof(struct Index) * (arr->cap);
+        
         arr->arr = realloc(arr->arr, newArrSize);
-        assert(sizeof(arr->arr) == newArrSize);
     }
    
     arr->arr[arr->len] = i;
     arr->len++;
 }
+
 void delete_item(IndexArr *arr, int index){
     if(index >= arr->len || arr->len == 0){
         return;
     }
 
     for (int i = index; i < arr->len - 1; i++) {
-        arr[i] = arr[i + 1];
+        arr->arr[i] = arr->arr[i + 1];
     }
 
     arr->len--;
 }
+
 void deleteArr(IndexArr *arr){
     for(int i =0; i < arr->len; i++){
         free(&arr->arr[i]);
@@ -57,7 +58,7 @@ void deleteArr(IndexArr *arr){
 
 IndexArr* createDynamicArray(){
     IndexArr *d_arr = malloc(sizeof(IndexArr) * 5);
-    d_arr->arr = malloc(sizeof(int));
+    d_arr->arr = malloc(sizeof(struct Index));
     d_arr->len = 0;
     d_arr->cap = 1;
     return d_arr;
@@ -90,12 +91,12 @@ void insert_person(struct PersonDb *db, struct Person *p){
     db->next_id++;
 
     fseek(db->file, 0, SEEK_END);
-    int loc_id = ftell(db) + 2;
+    int loc_id = ftell(db->file) + 2;
     fprintf(db->file, insert_str);
 
     new_ind.loc = loc_id;
 
-    insertArr(db, new_ind);
+    insertArr(db->id_index, new_ind);
 
     free(insert_str);
     free(p);
@@ -106,10 +107,51 @@ void insert_person(struct PersonDb *db, struct Person *p){
 //update
 
 
+char *get_id(FILE *f, int loc){
+    char *str_id =malloc(sizeof(char)*4);
+    char temp;
+
+    fseek(f, loc, SEEK_SET);
+    do{
+        temp = getc(f);
+        if(temp == ','){
+            break;
+        }
+
+        str_id+=temp;
+    }
+    while(temp != EOF);
+
+    if(strlen(str_id) == 0){
+        free(str_id);
+        return NULL;
+    }
+    
+    return str_id;
+}
 
 int main(){
     struct PersonDb *db = create_personDb();
-    struct Person *person_save = create_new_person("bob", "smith", 20);
-    insert_person(db, person_save);
+    struct Person *person_save1 = create_new_person("bob", "smith", 20);
+    struct Person *person_save2 = create_new_person("dan", "sai", 33);
+    struct Person *person_save3 = create_new_person("robert", "chuscki", 33);
+    
+    insert_person(db, person_save1);
+    insert_person(db, person_save2);
+    insert_person(db, person_save3);
+    
+    char *id_1 = get_id(db->file, db->id_index->arr[0].loc); 
+    char *id_2 = get_id(db->file, db->id_index->arr[1].loc); 
+    char *id_3 = get_id(db->file, db->id_index->arr[2].loc);
+    
+    printf("\n\n");
+    printf("id of person bob: %c\n", id_1);
+    printf("id of person dan: %c\n", id_2);
+    printf("id of person robert: %c\n", id_3);
+    
+    
+    
+    
+    
     return 0;
 }

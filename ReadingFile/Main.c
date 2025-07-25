@@ -74,8 +74,49 @@ void read_test_number_from_file(){
     printf("write 3 number: %c\n", getc(fp));
 }
 
-int main(){
+void read_test_number_from_file2(){
+    FILE *fp = fopen("C:\\Users\\russ2\\Desktop\\CPractice\\ReadingFile\\testFile3.txt", "r+");
+    char  *write_str1 = "t2st 1";
+    char  *write_str2 = "t3st 2";
+    char  *write_str3 = "t4st 3";
+    printf("\n\n");
+
+    printf("string of write_str1: %d\n", strlen(write_str1));
+    printf("string of write_str2: %d\n", strlen(write_str2));
+    printf("string of write_str3: %d\n", strlen(write_str3));
+
+    printf("\n\n");
+    printf("size of file before write 1: %d\n ", ftell(fp));
     
+    fprintf(fp, write_str1);
+    int write1 = ftell(fp);
+    
+    fprintf(fp, write_str2);
+    int write2 = ftell(fp);
+
+    fprintf(fp, write_str3);
+    int write3 = ftell(fp);
+
+    printf("\n\n");
+
+    printf("string of write_str1: %d\n", strlen(write_str1));
+    printf("string of write_str2: %d\n", strlen(write_str2));
+    printf("string of write_str3: %d\n", strlen(write_str3));
+
+    printf("\n\n");
+
+    fseek(fp, write1-strlen(write_str1)+1, SEEK_SET);
+    printf("write 1 number: %c\n", getc(fp));
+
+    fseek(fp, write2-strlen(write_str2)+1, SEEK_SET);
+    printf("write 2 number: %c\n", getc(fp));
+
+    fseek(fp, write3-strlen(write_str3)+1, SEEK_SET);
+    printf("write 3 number: %c\n", getc(fp));
+}
+
+int main(){
+    read_test_number_from_file2();
 
     return 0;
 }
