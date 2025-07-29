@@ -100,7 +100,6 @@ void insert_person(struct PersonDb *db, struct Person *p){
     insertArr(db->id_index, new_ind);
 
     free(insert_str);
-    free(p);
 } 
 
 //delete
@@ -109,18 +108,21 @@ void insert_person(struct PersonDb *db, struct Person *p){
 
 //parser
 struct Person *parse_person(FILE *f, int loc){
-    int string_cap = sizeof(char)*10;
-    char* string_temp =  malloc(string_cap);
+    
+    char* string_temp;
     int temp_char;
     int comma_counter = 0;
 
-
     int id, age;
-    char* first_name, last_name;
+    char* first_name;
+    char* last_name;
 
     fseek(f, loc, SEEK_SET);
-   do{
+    do{
+        int string_cap = sizeof(char)*10;
+        string_temp =  malloc(string_cap);
         int column_counter = 0;
+
         do{
             temp_char = getc(f);
             if(temp_char == ','){
@@ -132,7 +134,7 @@ struct Person *parse_person(FILE *f, int loc){
                 string_temp = realloc(string_temp, string_cap);
             }
 
-            string_temp[column_counter] = temp_char;
+            string_temp[column_counter] = (char)temp_char;
             column_counter++;
         }
         while(temp_char != EOF);
@@ -142,10 +144,10 @@ struct Person *parse_person(FILE *f, int loc){
                 id = atoi(string_temp);
                 break;
             case 1:
-                first_name = string_temp;
+                strcpy(first_name, string_temp);
                 break;
             case 2:
-                last_name = string_temp;
+                strcpy(last_name, string_temp);
                 break;
             case 3:
                 age = atoi(string_temp);
@@ -154,7 +156,7 @@ struct Person *parse_person(FILE *f, int loc){
                 printf("something went parsing person");
                 break;
         }
-
+        free(string_temp);
         comma_counter++;
     }
     while(temp_char != EOF && temp_char != ')');

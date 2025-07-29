@@ -8,6 +8,7 @@ struct Person *create_new_person_wth_id(char* firstName, char* lastName, unsigne
 void free_person(struct Person *p);
 char *serialize_person(struct Person *p, int id);
 char *convert_int_str(int v);
+void print_person(struct Person *p);
 
 
 

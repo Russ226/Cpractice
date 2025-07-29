@@ -5,7 +5,7 @@
 #include "database.c"
 
 void test_parse_id(){
-    printf("\n\n-----------------ANSI_COLOR_REDtest_parse_id------------------");
+    printf("\n\n-----------------test_parse_id------------------");
     struct PersonDb *db = create_personDb();
     struct Person *person_save1 = create_new_person("bob", "smith", 20);
     struct Person *person_save2 = create_new_person("dan", "sai", 33);
@@ -25,10 +25,29 @@ void test_parse_id(){
     printf("id of person robert: %d\n", id_3);
     printf("\n\n");
     printf("----------------test_parse_id-------------------\n\n");
+
+    free(db);
+    free_person(person_save1);
+    free_person(person_save2);
+    free_person(person_save3);
 }
 
 int main(){
     test_parse_id();
+
+    struct PersonDb *db = create_personDb();
+    struct Person *person_save1 = create_new_person("bob", "smith", 20);
+    struct Person *person_save2 = create_new_person("dan", "sai", 33);
+    struct Person *person_save3 = create_new_person("robert", "chuscki", 33);
+
+    for(int i=0; i<db->id_index->len; i++){
+        struct Person *Parsed_person = parse_person(db->file, db->id_index->arr[i].loc);
+
+        print_person(Parsed_person);
+    }
+
+
+
        
     return 0;
 }

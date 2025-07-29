@@ -11,7 +11,7 @@ struct Person{
 };
 
 struct Person *create_new_person(char* firstName, char* lastName, unsigned int age){
-    if(sizeof(firstName) < 1 || sizeof(firstName) < 1){
+    if(sizeof(firstName) < 1 || sizeof(lastName) < 1){
         return NULL;
     }
 
@@ -24,7 +24,7 @@ struct Person *create_new_person(char* firstName, char* lastName, unsigned int a
 }
 
 struct Person *create_new_person_wth_id(char* firstName, char* lastName, unsigned int age, unsigned int id){
-    if(sizeof(firstName) < 1 || sizeof(firstName) < 1){
+    if(sizeof(firstName) < 1 || sizeof(lastName) < 1){
         return NULL;
     }
 
@@ -38,8 +38,8 @@ struct Person *create_new_person_wth_id(char* firstName, char* lastName, unsigne
 }
 
 void free_person(struct Person *p){
-    free(p->firstName);
-    free(p->lastName);
+    //free(p->firstName);
+    //free(p->lastName);
     free(p);
 }
 
@@ -69,4 +69,8 @@ char *serialize_person(struct Person *p, int id){
     free(converted_age);
 
     return serialized;
+}
+
+void print_person(struct Person *p){
+    printf("\nId: %d\nFirst Name: %s\nLast Name:%s\nAge:%d\n", p->id, p->firstName, p->lastName, p->age);
 }
