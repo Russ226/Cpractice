@@ -4,6 +4,7 @@
 #include "person.h"
 
 struct Person{
+    unsigned int id;
     char* firstName;
     char* lastName;
     unsigned int age;
@@ -18,6 +19,20 @@ struct Person *create_new_person(char* firstName, char* lastName, unsigned int a
     ret_item->firstName = firstName;
     ret_item->lastName = lastName;
     ret_item->age = age;
+
+    return ret_item;
+}
+
+struct Person *create_new_person_wth_id(char* firstName, char* lastName, unsigned int age, unsigned int id){
+    if(sizeof(firstName) < 1 || sizeof(firstName) < 1){
+        return NULL;
+    }
+
+    struct Person *ret_item = malloc(sizeof(struct Person));
+    ret_item->firstName = firstName;
+    ret_item->lastName = lastName;
+    ret_item->age = age;
+    ret_item->id = id;
 
     return ret_item;
 }

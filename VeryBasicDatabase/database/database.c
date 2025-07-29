@@ -107,6 +107,60 @@ void insert_person(struct PersonDb *db, struct Person *p){
 
 //update
 
+//parser
+struct Person *parse_person(FILE *f, int loc){
+    int string_cap = sizeof(char)*10;
+    char* string_temp =  malloc(string_cap);
+    int temp_char;
+    int comma_counter = 0;
+
+
+    int id, age;
+    char* first_name, last_name;
+
+    fseek(f, loc, SEEK_SET);
+   do{
+        int column_counter = 0;
+        do{
+            temp_char = getc(f);
+            if(temp_char == ','){
+                break;
+            }
+
+            if(column_counter == string_cap){
+                string_cap *=2;
+                string_temp = realloc(string_temp, string_cap);
+            }
+
+            string_temp[column_counter] = temp_char;
+            column_counter++;
+        }
+        while(temp_char != EOF);
+
+        switch(comma_counter){
+            case 0:
+                id = atoi(string_temp);
+                break;
+            case 1:
+                first_name = string_temp;
+                break;
+            case 2:
+                last_name = string_temp;
+                break;
+            case 3:
+                age = atoi(string_temp);
+                break;
+            default:
+                printf("something went parsing person");
+                break;
+        }
+
+        comma_counter++;
+    }
+    while(temp_char != EOF && temp_char != ')');
+
+    return create_new_person_wth_id(first_name, last_name, age, id);
+}
 
 int get_id(FILE *f, int loc){
     char *str_id =malloc(sizeof(char)*4);
@@ -129,24 +183,3 @@ int get_id(FILE *f, int loc){
     return ret_item;
 }
 
-int main(){
-    struct PersonDb *db = create_personDb();
-    struct Person *person_save1 = create_new_person("bob", "smith", 20);
-    struct Person *person_save2 = create_new_person("dan", "sai", 33);
-    struct Person *person_save3 = create_new_person("robert", "chuscki", 33);
-    
-    insert_person(db, person_save1);
-    insert_person(db, person_save2);
-    insert_person(db, person_save3);
-
-    int id_1 = get_id(db->file, db->id_index->arr[0].loc); 
-    int id_2 = get_id(db->file, db->id_index->arr[1].loc); 
-    int id_3 = get_id(db->file, db->id_index->arr[2].loc);
-    
-    printf("\n\n");
-    printf("id of person bob: %d\n", id_1);
-    printf("id of person dan: %d\n", id_2);
-    printf("id of person robert: %d\n", id_3);
-       
-    return 0;
-}
