@@ -40,6 +40,10 @@ int main(){
     struct Person *person_save2 = create_new_person("dan", "sai", 33);
     struct Person *person_save3 = create_new_person("robert", "chuscki", 33);
 
+    insert_person(db, person_save1);
+    insert_person(db, person_save2);
+    insert_person(db, person_save3);
+
     for(int i=0; i<db->id_index->len; i++){
         struct Person *Parsed_person = parse_person(db->file, db->id_index->arr[i].loc);
 

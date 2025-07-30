@@ -125,7 +125,7 @@ struct Person *parse_person(FILE *f, int loc){
 
         do{
             temp_char = getc(f);
-            if(temp_char == ','){
+            if(temp_char == ',' || temp_char == ')'){
                 break;
             }
 
@@ -134,7 +134,7 @@ struct Person *parse_person(FILE *f, int loc){
                 string_temp = realloc(string_temp, string_cap);
             }
 
-            string_temp[column_counter] = (char)temp_char;
+            string_temp[column_counter] = temp_char;
             column_counter++;
         }
         while(temp_char != EOF);
@@ -144,16 +144,18 @@ struct Person *parse_person(FILE *f, int loc){
                 id = atoi(string_temp);
                 break;
             case 1:
+                first_name = malloc(sizeof(string_temp));
                 strcpy(first_name, string_temp);
                 break;
             case 2:
+                last_name = malloc(sizeof(string_temp));
                 strcpy(last_name, string_temp);
                 break;
             case 3:
                 age = atoi(string_temp);
                 break;
             default:
-                printf("something went parsing person");
+                printf("something went wrong parsing person");
                 break;
         }
         free(string_temp);
