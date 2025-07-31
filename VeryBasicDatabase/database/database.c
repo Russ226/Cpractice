@@ -120,19 +120,21 @@ struct Person *parse_person(FILE *f, int loc){
     fseek(f, loc, SEEK_SET);
     do{
         int string_cap = sizeof(char)*10;
-        string_temp =  malloc(string_cap);
+        string_temp =  (char*)malloc(string_cap);
         int column_counter = 0;
 
         do{
             temp_char = getc(f);
-            if(temp_char == ',' || temp_char == ')'){
-                break;
-            }
-
             if(column_counter == string_cap){
                 string_cap *=2;
                 string_temp = realloc(string_temp, string_cap);
             }
+            if(temp_char == ',' || temp_char == ')'){
+                //prevents for str copying junk to new string
+                string_temp[column_counter] = '\0';
+                break;
+            }
+
 
             string_temp[column_counter] = temp_char;
             column_counter++;
