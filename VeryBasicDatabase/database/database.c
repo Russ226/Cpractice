@@ -82,6 +82,19 @@ struct PersonDb *create_personDb(){
     return ret_Item;
 }
 //read
+struct Person *find_person_by_id(struct PersonDb *db, int id){
+    if(db->id_index->len == 0){
+        return NULL;
+    }
+
+    for(int i = 0; i < db->id_index->len; i++){
+        if(db->id_index->arr[i].id = id){
+            return parse_person(db->file, db->id_index->arr[i].loc);
+        }
+    }
+
+    return NULL;
+}
 
 //insert
 void insert_person(struct PersonDb *db, struct Person *p){
@@ -103,7 +116,20 @@ void insert_person(struct PersonDb *db, struct Person *p){
 } 
 
 //delete
+void delete_person_by_id(struct PersonDb *db, int id){
+    int index = -1;
+    for(int i = 0; i < db->id_index->len; i++){
+        if(db->id_index->arr[i].id == id){
+            index = i;
+            break;
+        }
+    }
 
+    if(index != -1){
+        delete_item(db->id_index->arr, index);
+    }
+
+}
 //update
 
 //parser
