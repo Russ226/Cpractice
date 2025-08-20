@@ -178,9 +178,66 @@ void update_person_row(struct PersonDb *db, enum FieldName field, char* new_valu
         }
         
     }
+}
 
+void update_file_contents(struct PersonDb *db, char *val, int id, int loc){
+    char *db_temp_file_path = malloc((sizeof(db->base_path) + 14));
+    strcpy(db_temp_file_path, db->base_path);
+    strcat(db_temp_file_path, "\\tempfile.txt");
 
-    
+    FILE *temp_file = fopen(db_temp_file_path ,"a");
+    fseek(db->file, 0, SEEK_END);
+
+    int cur_loc = 0;
+
+    while(cur_loc < loc){
+        int temp = getc(db->file);
+        if(temp == EOF){
+            break;
+        }
+        fprintf(temp_file, (char)temp);
+        
+        cur_loc++;
+    }
+
+    int chars_wrote = fprintf(temp_file, val);
+
+    // ignore and count the old entries chars in old file
+    int old_size = 0;
+    int temp_char;
+    do{
+        temp_char = getc(db->file);
+        old_size++;
+    }while(temp_char != ')' && temp_char != EOF);
+
+    // subtract old entry count from with new entry count
+    int offset = chars_wrote - old_size;
+
+    // update offset for indexes greater than person just updated
+    for(int i = 0; i < db->id_index->len; i++){
+        if(id > db->id_index->arr[i].id){
+            db->id_index->arr[i].loc += offset;
+        }
+    }
+    // write the rest of old file new file
+    do{
+        temp_char = getc(db->file);
+        fprintf(temp_file, (char)temp_char);
+    }while(temp_char != EOF);
+
+    char *old_name = malloc(sizeof(db->base_path) + sizeof(db->file_name));
+    strcpy(old_name, db->base_path);
+    strcat(old_name, "\\");
+    strcat(old_name ,db->file_name);
+    remove(old_name);
+    rename(db_temp_file_path, old_name);
+
+    free(db->file);
+    db->file = temp_file;
+
+    free(db_temp_file_path);
+    free(val);
+    free(old_name);
 }
 
 //parser
