@@ -18,7 +18,16 @@ typedef struct IndexArr{
 struct PersonDb{
     int next_id;
     FILE *file;
+    char* file_name;
+    char* base_path;
     IndexArr *id_index;
+};
+
+enum FieldName{
+    ID,
+    FIRST_NAME,
+    LAST_NAME,
+    DOB
 };
 
 
@@ -75,6 +84,8 @@ struct PersonDb *create_personDb(){
     IndexArr *a = createDynamicArray();
 
     struct PersonDb *ret_Item = malloc(sizeof(struct PersonDb));
+    ret_Item->base_path = "C:\\Users\\russ2\\Desktop\\CPractice\\VeryBasicDatabase\\database";
+    ret_Item->file_name = "textFile.txt";
     ret_Item->file = fp;
     ret_Item->id_index = a;
     ret_Item->next_id = 0;
@@ -131,6 +142,46 @@ void delete_person_by_id(struct PersonDb *db, int id){
 
 }
 //update
+void update_person_row(struct PersonDb *db, enum FieldName field, char* new_value, int person_id){
+    int person_loc = -1;
+    int next_person_loc = -1;
+    for(int i = 0; i < db->id_index->len; i++){
+        if(person_id == db->id_index->arr[i].id){
+            person_loc = db->id_index->arr[i].loc;
+            if(i + 1 < db->id_index->len) {
+                next_person_loc = db->id_index->arr[i + 1].loc;
+            }
+
+            break;
+        }
+    }
+
+    if(person_loc != -1){
+        struct Person *person_to_update = parse_person(db->file, person_loc);
+        if(person_to_update != NULL){
+            switch(field){
+                case DOB:
+                    person_to_update->age = atoi(new_value);
+                    break;
+                case FIRST_NAME:
+                    free(person_to_update->firstName);
+                    person_to_update->firstName = new_value;
+                    break;
+                case LAST_NAME:
+                    free(person_to_update->lastName);
+                    person_to_update->lastName = new_value;
+                    break;
+                default:
+                    printf("invalid field name");
+                    break;
+            }
+        }
+        
+    }
+
+
+    
+}
 
 //parser
 struct Person *parse_person(FILE *f, int loc){

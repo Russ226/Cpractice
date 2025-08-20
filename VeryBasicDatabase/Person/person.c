@@ -3,12 +3,7 @@
 #include <string.h>
 #include "person.h"
 
-struct Person{
-    unsigned int id;
-    char* firstName;
-    char* lastName;
-    unsigned int age;
-};
+
 
 struct Person *create_new_person(char* firstName, char* lastName, unsigned int age){
     if(sizeof(firstName) < 1 || sizeof(lastName) < 1){
