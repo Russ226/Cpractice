@@ -147,6 +147,7 @@ void update_person_row(struct PersonDb *db, enum FieldName field, char* new_valu
     int next_person_loc = -1;
     for(int i = 0; i < db->id_index->len; i++){
         if(person_id == db->id_index->arr[i].id){
+            // create var to capture index of id
             person_loc = db->id_index->arr[i].loc;
             if(i + 1 < db->id_index->len) {
                 next_person_loc = db->id_index->arr[i + 1].loc;
@@ -179,7 +180,7 @@ void update_person_row(struct PersonDb *db, enum FieldName field, char* new_valu
         
     }
 }
-
+// TODO change id param to index in array param 
 void update_file_contents(struct PersonDb *db, char *val, int id, int loc){
     char *db_temp_file_path = malloc((sizeof(db->base_path) + 14));
     strcpy(db_temp_file_path, db->base_path);
