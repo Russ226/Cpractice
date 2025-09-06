@@ -42,7 +42,6 @@ int main()
 		if ((circle_position.y >= screenHeight) || (circle_position.y <= 0)) velocity.y *= -1;
        
 
-        DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
 
         EndDrawing();
         
