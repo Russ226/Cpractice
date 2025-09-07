@@ -18,11 +18,18 @@ int main()
 
     SetTargetFPS(60);
 
-    Paddle p1 = Paddle(screenWidth, screenHeight, 20, 200, Vector2{ 10,screenHeight/2});
+    Paddle p1 = Paddle(screenWidth, screenHeight, 10, 100, Vector2{ 10,screenHeight/2});
 
     while (!WindowShouldClose())
     {
         BeginDrawing();
+        ClearBackground(BLANK);
+        if (IsKeyDown(KeyboardKey::KEY_W)) {
+            p1.draw(PaddleMovement::UP);
+        }
+        if (IsKeyDown(KeyboardKey::KEY_S)) {
+            p1.draw(PaddleMovement::DOWN);
+        }
         p1.draw(PaddleMovement::IGNORE);
        
         EndDrawing();

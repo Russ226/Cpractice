@@ -15,13 +15,13 @@ Paddle::Paddle(int screenW, int screenH, int rectangleW, int rectangleH, Vector2
 void Paddle::draw(PaddleMovement dir)
 {
 	switch (dir) {
-		case PaddleMovement::UP:
-			if (this->rec.y * (this->moveSpeed * GetFrameTime()) <= this->rectangleHeight) {
+		case PaddleMovement::DOWN:
+			if ((this->rec.y + this->rectangleHeight) + (this->moveSpeed * GetFrameTime()) <= this->screenHeight) {
 				this->rec.y += (this->moveSpeed * GetFrameTime());
 				DrawRectangleRec(this->rec, this->rectangleColor);
 			}
 			break;
-		case PaddleMovement::DOWN:
+		case PaddleMovement::UP:
 			if (this->rec.y * (this->moveSpeed * GetFrameTime()) >= 0) {
 				this->rec.y -= (this->moveSpeed * GetFrameTime());
 				DrawRectangleRec(this->rec, this->rectangleColor);
