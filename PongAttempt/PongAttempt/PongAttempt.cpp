@@ -5,6 +5,7 @@
 #include "raylib.h"
 #include <string>
 #include "Paddle.h"
+#include "Ball.h"
 
 
 int main()
@@ -19,19 +20,21 @@ int main()
     SetTargetFPS(60);
 
     Paddle p1 = Paddle(screenWidth, screenHeight, 10, 100, Vector2{ 10,screenHeight/2});
+    Ball b = Ball(screenWidth, screenHeight);
 
     while (!WindowShouldClose())
     {
-        BeginDrawing();
-        ClearBackground(BLANK);
         if (IsKeyDown(KeyboardKey::KEY_W)) {
-            p1.draw(PaddleMovement::UP);
+            p1.update(PaddleMovement::UP);
         }
         if (IsKeyDown(KeyboardKey::KEY_S)) {
-            p1.draw(PaddleMovement::DOWN);
+            p1.update(PaddleMovement::DOWN);
         }
-        p1.draw(PaddleMovement::IGNORE);
-       
+        b.update();
+        BeginDrawing();
+        ClearBackground(BLANK);
+        p1.draw();
+        b.draw();
         EndDrawing();
 
     }

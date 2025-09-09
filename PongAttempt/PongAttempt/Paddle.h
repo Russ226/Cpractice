@@ -20,7 +20,8 @@ class Paddle {
 		Color rectangleColor = Color('255', '255', '255', '1.0');
 	public:
 		Paddle(int screenW, int screenH, int rectangleW, int rectangleH, Vector2 location);
-		void draw(PaddleMovement dir);
+		void draw();
+		void update(PaddleMovement dir);
 };
 
 
