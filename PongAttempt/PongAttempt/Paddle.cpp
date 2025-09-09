@@ -33,3 +33,7 @@ void Paddle::update(PaddleMovement dir) {
 		break;
 	};
 }
+
+Rectangle Paddle::getRectangle() {
+	return this->rec;
+}

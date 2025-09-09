@@ -8,6 +8,7 @@ class Ball {
 	private:
         int screenWidth;
         int screenHeight;
+        float radius = 7;
         float speed = 100.0f;
         float angleDegrees = 45.0f; 
         float angleRadians = angleDegrees * DEG2RAD;
@@ -15,11 +16,12 @@ class Ball {
             speed * cosf(angleRadians),
             speed * sinf(angleRadians)
         };
+        Vector2 intialPos = { 160, 120 };
         Vector2 curPos = { 160, 120 };
     public:
         Ball(int sW, int sH);
         void draw();
-        void update();
+        void update(Rectangle rec);
 };
 
 #endif

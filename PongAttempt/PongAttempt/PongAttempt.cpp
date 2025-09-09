@@ -30,7 +30,7 @@ int main()
         if (IsKeyDown(KeyboardKey::KEY_S)) {
             p1.update(PaddleMovement::DOWN);
         }
-        b.update();
+        b.update(p1.getRectangle());
         BeginDrawing();
         ClearBackground(BLANK);
         p1.draw();

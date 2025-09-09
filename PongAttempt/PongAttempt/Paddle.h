@@ -22,6 +22,7 @@ class Paddle {
 		Paddle(int screenW, int screenH, int rectangleW, int rectangleH, Vector2 location);
 		void draw();
 		void update(PaddleMovement dir);
+		Rectangle getRectangle();
 };
 
 
