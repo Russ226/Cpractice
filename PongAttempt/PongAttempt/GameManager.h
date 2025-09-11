@@ -21,9 +21,9 @@ class GameManager{
 		int screenHeight;
 		Screen curScreen;
 		std::map<Players, int> score;
-		std::unique_ptr <Ball> ball;
-		std::unique_ptr<Paddle> player1;
-		std::unique_ptr<Paddle> player2;
+		std::shared_ptr <Ball> ball;
+		std::shared_ptr<Paddle> player1;
+		std::shared_ptr<Paddle> player2;
 	public:
 		GameManager(int sw, int sh);
 		void Draw();

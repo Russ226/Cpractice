@@ -6,6 +6,7 @@
 #include <string>
 #include "Paddle.h"
 #include "Ball.h"
+#include "GameManager.h"
 
 
 int main()
@@ -18,23 +19,14 @@ int main()
     InitWindow(screenWidth, screenHeight, "pong");
 
     SetTargetFPS(60);
-
-    Paddle p1 = Paddle(screenWidth, screenHeight, 10, 100, Vector2{ 10,screenHeight/2});
-    Ball b = Ball(screenWidth, screenHeight);
+    GameManager gh = GameManager(screenWidth, screenHeight);
 
     while (!WindowShouldClose())
     {
-        if (IsKeyDown(KeyboardKey::KEY_W)) {
-            p1.update(PaddleMovement::UP);
-        }
-        if (IsKeyDown(KeyboardKey::KEY_S)) {
-            p1.update(PaddleMovement::DOWN);
-        }
-        b.update(p1.getRectangle());
+        gh.Update();
         BeginDrawing();
         ClearBackground(BLANK);
-        p1.draw();
-        b.draw();
+        gh.Draw();
         EndDrawing();
 
     }

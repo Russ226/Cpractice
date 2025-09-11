@@ -1,28 +1,32 @@
 #pragma once
 #include <raylib.h>
+#include <map>
 #ifndef PADDLE_H     
 #define PADDLE_H
+
 enum PaddleMovement {
 	UP,
 	DOWN,
 	IGNORE
 };
 
+typedef std::map<PaddleMovement, KeyboardKey> directionalKeys;
+
 class Paddle {
 	private:
-		int screenWidth = 0 ;
-		int screenHeight = 0;
-		int rectangleWidth = 0;
-		int rectangleHeight =0 ;
-		Vector2 startingLocation = {0, 0};
-		const float moveSpeed = 200.0f;
+		int screenWidth;
+		int screenHeight;
+		int rectangleWidth;
+		int rectangleHeight;
+		Vector2 startingLocation;
+		float moveSpeed;
 		Rectangle rec;
-		Color rectangleColor = Color('255', '255', '255', '1.0');
+		Color rectangleColor;
+		directionalKeys dirKeys;
 	public:
-		Paddle() {};
-		Paddle(int screenW, int screenH, int rectangleW, int rectangleH, Vector2 location);
+		Paddle(int screenW, int screenH, int rectangleW, int rectangleH, Vector2 location, directionalKeys dK);
 		void draw();
-		void update(PaddleMovement dir);
+		void update();
 		Rectangle getRectangle();
 };
 

@@ -1,6 +1,8 @@
 #pragma once
 #include <raylib.h>
 #include <math.h>
+#include <memory>
+#include "Paddle.h"
 #ifndef BALL_H     
 #define BALL_H
 
@@ -18,11 +20,14 @@ class Ball {
         };
         Vector2 intialPos = { 160, 120 };
         Vector2 curPos = { 160, 120 };
+        std::shared_ptr<Paddle> player1;
+        std::shared_ptr<Paddle> player2;
     public:
         Ball() {};
-        Ball(int sW, int sH);
+        Ball(int sW, int sH, std::shared_ptr<Paddle> p1, std::shared_ptr<Paddle> p2);
         void draw();
-        void update(Rectangle rec);
+        void update();
+        Vector2 getCurrentPos();
 };
 
 #endif
