@@ -15,9 +15,9 @@ GameManager::GameManager(int sw, int sh)
 	curScreen = START;
 	screenWidth = sw;
 	screenHeight = sh;
-	player1= std::make_shared<Paddle>(Paddle(screenWidth, screenHeight, 10, 100, Vector2{ 10, (float)screenHeight/2 }, player1Keys));
-	player2 = std::make_shared<Paddle>(Paddle(screenWidth, screenHeight, 10, 100, Vector2{ (float)screenWidth - 10, (float)screenHeight / 2 }, player2Keys));
-	ball = std::make_shared<Ball>(Ball(sw, sh, *player1, *player2));
+	player1= std::make_shared<Paddle>(Paddle(screenWidth, screenHeight, 10, 100, Vector2{ 20, (float)screenHeight/2 }, player1Keys));
+	player2 = std::make_shared<Paddle>(Paddle(screenWidth, screenHeight, 10, 100, Vector2{ (float)screenWidth - 20, (float)screenHeight / 2 }, player2Keys));
+	ball = std::make_shared<Ball>(Ball(sw, sh, player1, player2));
 	score = std::map<Players, int>();
 	score.insert({ PLAYER1, 0 });
 	score.insert({ PLAYER2, 0 });
@@ -25,28 +25,24 @@ GameManager::GameManager(int sw, int sh)
 
 void GameManager::draw()
 {
-	if (ball != nullptr && player1 != nullptr && player2 != nullptr) {
-		drawScore();
-		player1->draw();
-		player2->draw();
-		ball->draw();
-	}
+	drawScore();
+	player1->draw();
+	player2->draw();
+	ball->draw();
 }
 
 void GameManager::update()
 {
-	if(ball != nullptr && player1 != nullptr && player2 != nullptr) {
-	
-		if(ball->getCurrentPos().x >= screenWidth){
-			score[PLAYER2]++;
-		}
-		if(ball->getCurrentPos().x <= 0){
-			score[PLAYER1]++;
-		}
 
-		player1->update();
-		player2->update();
-		ball->update();
+	ball->update();
+	player1->update();
+	player2->update();
+
+	if (ball->getCurrentPos().x >= screenWidth) {
+		score[PLAYER2]++;
+	}
+	if (ball->getCurrentPos().x <= 0) {
+		score[PLAYER1]++;
 	}
 }
 
