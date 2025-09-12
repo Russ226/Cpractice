@@ -10,15 +10,15 @@ Paddle::Paddle(int screenW, int screenH, int rectangleW, int rectangleH, Vector2
 	this->dirKeys = dK;
 	this->rec = {location.x, location.y, (float)rectangleW, (float)rectangleH};
 
-	rectangleColor = Color('255', '255', '255', '1.0');
+	rectangleColor = Color('100', '23', '0', '1.0');
 	moveSpeed = 200.0f;
-	startingLocation = { 0, 0 };
+	//startingLocation = { 0, 0 };
 
 }
 
 void Paddle::draw()
 {
-	DrawRectangleRec(this->rec, this->rectangleColor);
+	DrawRectangleRec(this->rec, ORANGE);
 }
 
 void Paddle::update() {

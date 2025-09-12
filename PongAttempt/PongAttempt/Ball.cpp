@@ -1,12 +1,12 @@
 #include "Ball.h"
 #include "Paddle.h"
 
-Ball::Ball(int sW, int sH, std::shared_ptr<Paddle> p1, std::shared_ptr<Paddle> p2)
+Ball::Ball(int sW, int sH, Paddle &p1, Paddle &p2)
 {
 	this->screenWidth = sW;
 	this->screenHeight = sH;
-	this->player1 = std::shared_ptr<Paddle>(p1.get());
-	this->player2 = std::shared_ptr<Paddle>(p2.get());
+	this->player1 = std::make_shared<Paddle>(p1);
+	this->player2 = std::make_shared<Paddle>(p2);
 }
 
 void Ball::draw()
@@ -28,4 +28,10 @@ void Ball::update()
 Vector2 Ball::getCurrentPos()
 {
 	return this->curPos;
+}
+
+Ball::~Ball()
+{
+	player1.reset();
+	player2.reset();
 }

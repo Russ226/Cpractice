@@ -26,6 +26,8 @@ class GameManager{
 		std::shared_ptr<Paddle> player2;
 	public:
 		GameManager(int sw, int sh);
-		void Draw();
-		void Update();
+		void draw();
+		void update();
+		void drawScore();
+		~GameManager();
 };

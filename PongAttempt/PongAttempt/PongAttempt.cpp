@@ -23,15 +23,15 @@ int main()
 
     while (!WindowShouldClose())
     {
-        gh.Update();
+        gh.update();
         BeginDrawing();
         ClearBackground(BLANK);
-        gh.Draw();
+        gh.draw();
         EndDrawing();
 
     }
-
     CloseWindow();
+    return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

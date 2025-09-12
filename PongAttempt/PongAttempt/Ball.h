@@ -24,10 +24,11 @@ class Ball {
         std::shared_ptr<Paddle> player2;
     public:
         Ball() {};
-        Ball(int sW, int sH, std::shared_ptr<Paddle> p1, std::shared_ptr<Paddle> p2);
+        Ball(int sW, int sH, Paddle& p1, Paddle& p2);
         void draw();
         void update();
         Vector2 getCurrentPos();
+        ~Ball();
 };
 
 #endif
