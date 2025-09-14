@@ -129,14 +129,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Paddle.cpp" />
     <ClCompile Include="PongAttempt.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ball.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Paddle.h" />
+    <ClInclude Include="UIBehavior.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\..\..\..\AppData\Local\Temp\Rar$DRa16908.24744\PlayfairDisplay-Black.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

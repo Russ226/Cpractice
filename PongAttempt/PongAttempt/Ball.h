@@ -3,10 +3,11 @@
 #include <math.h>
 #include <memory>
 #include "Paddle.h"
+#include "UIBehavior.h"
 #ifndef BALL_H     
 #define BALL_H
 
-class Ball {
+class Ball: public UIBehavior {
 	private:
         int screenWidth = 0;
         int screenHeight = 0;
@@ -25,8 +26,8 @@ class Ball {
     public:
         Ball() {};
         Ball(int sW, int sH, std::shared_ptr<Paddle> p1, std::shared_ptr<Paddle> p2);
-        void draw();
-        void update();
+        void draw() override;
+        void update() override;
         Vector2 getCurrentPos();
         ~Ball();
 };

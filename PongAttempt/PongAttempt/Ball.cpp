@@ -9,7 +9,7 @@ Ball::Ball(int sW, int sH, std::shared_ptr<Paddle> p1, std::shared_ptr<Paddle> p
 	this->player2 = p2;
 }
 
-void Ball::draw()
+void Ball::draw() 
 {
 	DrawCircle(curPos.x, curPos.y, radius, DARKBLUE);
 }

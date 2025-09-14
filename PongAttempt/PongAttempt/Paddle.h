@@ -1,6 +1,7 @@
 #pragma once
 #include <raylib.h>
 #include <map>
+#include "UIBehavior.h"
 #ifndef PADDLE_H     
 #define PADDLE_H
 
@@ -12,7 +13,7 @@ enum PaddleMovement {
 
 typedef std::map<PaddleMovement, KeyboardKey> directionalKeys;
 
-class Paddle {
+class Paddle: public UIBehavior {
 	private:
 		int screenWidth;
 		int screenHeight;
@@ -25,8 +26,8 @@ class Paddle {
 		directionalKeys dirKeys;
 	public:
 		Paddle(int screenW, int screenH, int rectangleW, int rectangleH, Vector2 location, directionalKeys dK);
-		void draw();
-		void update();
+		void draw() override;
+		void update()override;
 		Rectangle getRectangle();
 };
 

@@ -1,8 +1,12 @@
 #pragma once
 #include "Ball.h"
 #include "Paddle.h"
+#include "UIBehavior.h"
 #include <map>
 #include <memory>
+
+#ifndef GAMEMANGER_H
+#define GAMEMANGER_H
 
 enum Screen {
 	START,
@@ -15,7 +19,7 @@ enum Players {
 	PLAYER2
 };
 
-class GameManager{
+class GameManager: public UIBehavior {
 	private:
 		int screenWidth;
 		int screenHeight;
@@ -26,8 +30,10 @@ class GameManager{
 		std::shared_ptr<Paddle> player2;
 	public:
 		GameManager(int sw, int sh);
-		void draw();
-		void update();
+		void draw() override;
+		void update()override;
 		void drawScore();
 		~GameManager();
 };
+
+#endif
