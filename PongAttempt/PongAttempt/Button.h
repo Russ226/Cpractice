@@ -21,7 +21,7 @@ class Button: public UIBehavior {
 		int btnWidth;
 		Color btnColor;
 		Rectangle button;
-		Font btnFont;
+		Font btnFont; 
 		void drawTextRect();
 public:
 	Button(Vector2 btnL, int btnH, int btnW, Color btnC, std::string text, std::function<void(void)> onClick);

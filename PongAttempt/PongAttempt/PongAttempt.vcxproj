@@ -142,7 +142,9 @@
     <ClInclude Include="UIBehavior.h" />
   </ItemGroup>
   <ItemGroup>
-    <Font Include="..\..\..\..\AppData\Local\Temp\Rar$DRa16908.24744\PlayfairDisplay-Black.ttf" />
+    <Font Include="..\..\..\..\AppData\Local\Temp\Rar$DRa16908.24744\PlayfairDisplay-Black.ttf">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </Font>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
