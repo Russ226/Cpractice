@@ -2,6 +2,7 @@
 #include "Ball.h"
 #include "Paddle.h"
 #include "UIBehavior.h"
+#include "Button.h"
 #include <map>
 #include <memory>
 
@@ -28,6 +29,8 @@ class GameManager: public UIBehavior {
 		std::shared_ptr <Ball> ball;
 		std::shared_ptr<Paddle> player1;
 		std::shared_ptr<Paddle> player2;
+		std::unique_ptr<Button> startBtn;
+		std::unique_ptr<Button> endBtn;
 	public:
 		GameManager(int sw, int sh);
 		void draw() override;

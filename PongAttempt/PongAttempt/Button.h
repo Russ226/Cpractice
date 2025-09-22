@@ -20,11 +20,12 @@ class Button: public UIBehavior {
 		int btnHeight;
 		int btnWidth;
 		Color btnColor;
+		Color btnTextColor;
 		Rectangle button;
 		Font btnFont; 
 		void drawTextRect();
 public:
-	Button(Vector2 btnL, int btnH, int btnW, Color btnC, std::string text, std::function<void(void)> onClick);
+	Button(Vector2 btnL, int btnH, int btnW, Color btnC, Color btnTC, std::string text, std::function<void(void)> onClick);
 	void draw() override;
 	void update() override;
 };

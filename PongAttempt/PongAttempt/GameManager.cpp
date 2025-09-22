@@ -1,6 +1,7 @@
 #include "GameManager.h"
 #include "Ball.h"
 #include "Paddle.h"
+#include <iostream>
 
 GameManager::GameManager(int sw, int sh)
 {
@@ -21,29 +22,66 @@ GameManager::GameManager(int sw, int sh)
 	score = std::map<Players, int>();
 	score.insert({ PLAYER1, 0 });
 	score.insert({ PLAYER2, 0 });
+
+	startBtn = std::make_unique<Button>(Button(Vector2(100, 100), 100, 200, BLACK, WHITE, "Start", [&]() {curScreen = GAME; }));
+	endBtn = std::make_unique<Button>(Button(Vector2(100, 100), 100, 200, BLACK, WHITE, "Play Again", [&]() {curScreen = GAME; }));
 }
 
 void GameManager::draw()
 {
-	drawScore();
-	player1->draw();
-	player2->draw();
-	ball->draw();
+	switch(curScreen) {
+		case START:
+			startBtn->draw();
+			break;
+		case GAME:
+			drawScore();
+			player1->draw();
+			player2->draw();
+			ball->draw();
+			break;
+		case END:
+			endBtn->draw();
+			break;
+		default:
+			std::cout << "Invalid game state" << std::endl;
+			curScreen = START;
+			break;
+	}
+	
 }
 
 void GameManager::update()
 {
+	switch (curScreen) {
+		case START:
+			startBtn->update();
+			break;
+		case GAME:
+			ball->update();
+			player1->update();
+			player2->update();
 
-	ball->update();
-	player1->update();
-	player2->update();
+			if (ball->getCurrentPos().x >= screenWidth - 1) {
+				score[PLAYER2]++;
+			}
+			if (ball->getCurrentPos().x <= 0 + 1) {
+				score[PLAYER1]++;
+			}
+			if (score[PLAYER1] == 3 || score[PLAYER2] == 3) {
+				score[PLAYER1] = score[PLAYER2] = 0;
+				curScreen = END;
+			}
+			break;
+		case END:
+			endBtn->update();
+			break;
+		default:
+			std::cout << "Invalid game state" << std::endl;
+			curScreen = START;
+			break;
+	}
 
-	if (ball->getCurrentPos().x >= screenWidth) {
-		score[PLAYER2]++;
-	}
-	if (ball->getCurrentPos().x <= 0) {
-		score[PLAYER1]++;
-	}
+	
 }
 
 void GameManager::drawScore(){

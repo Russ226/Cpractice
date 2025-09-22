@@ -1,6 +1,6 @@
 #include "Button.h"
 
-Button::Button(Vector2 btnL, int btnH, int btnW, Color btnC, std::string text, std::function<void(void)> onClick)
+Button::Button(Vector2 btnL, int btnH, int btnW, Color btnC, Color btnTC, std::string text, std::function<void(void)> onClick)
 {
 	this->btnLoc = btnL;
 	this->btnHeight = btnH;
@@ -8,6 +8,7 @@ Button::Button(Vector2 btnL, int btnH, int btnW, Color btnC, std::string text, s
 	this->btnText = text;
 	this->callback = onClick;
 	this->btnColor = btnC;
+	this->btnTextColor = btnTC;
 	this->button = { btnL.x, btnL.y, (float)btnH, (float)btnW };
 	this->btnFont = GetFontDefault();
 	this->button = { btnLoc.x, btnLoc.y, (float)btnWidth, (float)btnHeight };
@@ -44,12 +45,12 @@ void Button::drawTextRect() {
 	int selectLength = 0;
 
 	int length = TextLength(btnText.c_str());
-	float fontSize = btnHeight/5.0;
-	float spacing = 7.0;
-	float textOffsetY = 0;          
-	float textOffsetX = 5.0f;       
+	float fontSize = (btnHeight+btnWidth)/length;
+	float spacing = fontSize/2.0;
+	float intialTextOffsetY = 20.0, textOffsetY = intialTextOffsetY;
+	float intialTextOffsetX = 10.0f, textOffsetX = intialTextOffsetX;
 
-	float scaleFactor = 10 / (float)btnFont.baseSize;
+	float scaleFactor = fontSize / (float)btnFont.baseSize;
 	enum { MEASURE_STATE = 0, DRAW_STATE = 1 };
 	int state = MEASURE_STATE;
 
@@ -95,7 +96,7 @@ void Button::drawTextRect() {
 
 			if (state == DRAW_STATE)
 			{
-				textOffsetX = 0;
+				textOffsetX = intialTextOffsetX;
 				i = startLine;
 				glyphWidth = 0;
 
@@ -111,30 +112,30 @@ void Button::drawTextRect() {
 				bool isGlyphSelected = false;
 				if ((0 >= 0) && (k >= selectStart) && (k < (selectStart + selectLength)))
 				{
-					DrawRectangleRec(Rectangle(button.x + textOffsetX - 1, button.y + textOffsetY, glyphWidth, (float)btnFont.baseSize* scaleFactor), WHITE);
+					DrawRectangleRec(Rectangle(button.x + textOffsetX - 1, button.y + textOffsetY, glyphWidth, (float)btnFont.baseSize* scaleFactor), btnTextColor);
 					isGlyphSelected = true;
 				}
 
 				if ((codepoint != ' ') && (codepoint != '\t'))
 				{
-					 DrawTextCodepoint(btnFont, codepoint, Vector2(button.x + textOffsetX, button.y + textOffsetY), fontSize, WHITE);
+					 DrawTextCodepoint(btnFont, codepoint, Vector2(button.x + textOffsetX, button.y + textOffsetY), fontSize, btnTextColor);
 				}
 
-				if(i == endLine)
-				{
-					textOffsetY += (btnFont.baseSize + btnFont.baseSize / 2) * scaleFactor;
-					textOffsetX = 0;
-					startLine = endLine;
-					endLine = -1;
-					glyphWidth = 0;
-					selectStart += lastk - k;
-					k = lastk;
-
-					state = !state;
-				}
 			}
 
-			if ((textOffsetX != 0) || (codepoint != ' ')) textOffsetX += glyphWidth;
+		if ((textOffsetX != 0) || (codepoint != ' ')) textOffsetX += glyphWidth;
+		if(i == endLine)
+		{
+			textOffsetY += ((btnFont.baseSize + btnFont.baseSize / 2) * scaleFactor) + 20;
+			textOffsetX = intialTextOffsetX;
+			startLine = endLine;
+			endLine = -1;
+			glyphWidth = 0;
+			selectStart += lastk - k;
+			k = lastk;
+
+			state = !state;
+		}
 		}
 	}
 

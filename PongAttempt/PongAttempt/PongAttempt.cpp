@@ -4,9 +4,6 @@
 #include <iostream>
 #include "raylib.h"
 #include <string>
-#include "Paddle.h"
-#include "Ball.h"
-#include "Button.h"
 #include "GameManager.h"
 
 
@@ -21,15 +18,12 @@ int main()
 
     SetTargetFPS(60);
     GameManager gh = GameManager(screenWidth, screenHeight);
-    Button btn = Button(Vector2(100, 100), 100, 200, BLUE, "test", []() {std::cout << "I've benn clicked!\n";});
     while (!WindowShouldClose())
     {
-        btn.update();
-        //gh.update();
+        gh.update();
         BeginDrawing();
         ClearBackground(BLANK);
-        //gh.draw();
-        btn.draw();
+        gh.draw();
         EndDrawing();
 
     }
