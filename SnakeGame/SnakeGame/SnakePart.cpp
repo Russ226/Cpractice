@@ -30,6 +30,7 @@ void SnakePart::draw() {
 void SnakePart::update(){ 
 	//head check for collision
 	if (isHead) {
+		// use curren loc - the snake part size 
 		if ((currentLocation.x <= 0 && partMovement == LEFT) || (currentLocation.x >= screenWidth && partMovement == RIGHT)
 			|| (currentLocation.y <= 0 && partMovement == UP) || (currentLocation.y >= screenHeight && partMovement == DOWN)) partMovement = STOP;
 
@@ -45,18 +46,19 @@ void SnakePart::update(){
 
 	switch(partMovement) {
 		case LEFT:
-			currentLocation.x - (snakeSpeed * GetFrameTime());
+			currentLocation.x -= (snakeSpeed * GetFrameTime());
 			break;
 		case RIGHT:
-			currentLocation.x + (snakeSpeed * GetFrameTime());
+			currentLocation.x += (snakeSpeed * GetFrameTime());
 			break;
 		case UP:
-			currentLocation.y - (snakeSpeed * GetFrameTime());
+			currentLocation.y -= (snakeSpeed * GetFrameTime());
 			break;
 		case DOWN:
-			currentLocation.y + (snakeSpeed * GetFrameTime());
+			currentLocation.y += (snakeSpeed * GetFrameTime());
 			break;
 		default:
 			break;
 	}
+
 }

@@ -1,4 +1,3 @@
-#pragma once
 #include "UIBehavior.h"
 #include "raylib.h"
 #include <memory>
@@ -38,10 +37,12 @@ class Snake: public UIBehavior {
 	private:
 		int screenWidth;
 		int screenHeight;
+		float bodyPartSize;
 		float snakeSpeed;
 		Direction currentDirection;
 		std::shared_ptr<SnakePart> head;
 	public:
+		Snake(int screenW, int screenH, float bodyPartS, float snakeS, Vector2 spawnPoint, Direction curDir);
 		void draw() override;
 		void update()override;
 };

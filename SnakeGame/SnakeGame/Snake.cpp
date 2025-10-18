@@ -1,10 +1,21 @@
 #include "Snake.h"
 #include "raylib.h"
 
+Snake::Snake(int screenW, int screenH, float bodyPartS, float snakeS, Vector2 spawnPoint, Direction curDir) {
+	this->screenHeight = screenH;
+	this->screenWidth = screenW;
+	this->bodyPartSize = bodyPartS;
+	this->currentDirection = curDir;
+	this->snakeSpeed = snakeS;
+	this->head = std::make_shared<SnakePart>(SnakePart(screenW, screenH, bodyPartS, snakeS, spawnPoint, true, nullptr, curDir));
+
+}
+
 void Snake::draw() {
-	auto& cur = head;
+	auto cur = head;
 	while (cur) {
 		cur->draw();
+		cur = cur->getNextBodyPart();
 	}
 }
 
@@ -22,7 +33,7 @@ void Snake::update() {
 		currentDirection = RIGHT;
 	}
 
-	auto& cur = head;
+	auto cur = head;
 	while (cur) {
 		cur->setDirection(currentDirection);
 		cur->update();

@@ -1,4 +1,3 @@
-#pragma once
 #ifndef UIBEHAVIOR_H
 #define UIBEHAVIOR_H
 
