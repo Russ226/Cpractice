@@ -40,3 +40,14 @@ void Snake::update() {
 		cur = cur->getNextBodyPart();
 	}
 }
+
+void Snake::addBodyPart(std::shared_ptr<SnakePart> sb) {
+	bool hasAdded = false;
+
+	auto cur = head;
+	while (!hasAdded) {
+		hasAdded = cur->addBodyPart(sb);
+		cur = head->getNextBodyPart();
+	}
+
+}

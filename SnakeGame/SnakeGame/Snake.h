@@ -28,6 +28,7 @@ class SnakePart : public UIBehavior {
 	public:
 		SnakePart(int screenW, int screenH, float snakePartS, float snakeSp,Vector2 initialLoc, bool isH, std::shared_ptr<SnakePart> nextBP, Direction dir);
 		std::shared_ptr<SnakePart> getNextBodyPart();
+		bool addBodyPart(std::shared_ptr<SnakePart> sb);
 		void setDirection(Direction dir);
 		void draw() override;
 		void update()override;
@@ -43,6 +44,7 @@ class Snake: public UIBehavior {
 		std::shared_ptr<SnakePart> head;
 	public:
 		Snake(int screenW, int screenH, float bodyPartS, float snakeS, Vector2 spawnPoint, Direction curDir);
+		void addBodyPart(std::shared_ptr<SnakePart> sb);
 		void draw() override;
 		void update()override;
 };

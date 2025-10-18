@@ -34,13 +34,15 @@ void SnakePart::update(){
 		if ((currentLocation.x <= 0 && partMovement == LEFT) || (currentLocation.x >= screenWidth && partMovement == RIGHT)
 			|| (currentLocation.y <= 0 && partMovement == UP) || (currentLocation.y >= screenHeight && partMovement == DOWN)) partMovement = STOP;
 
-		auto &cur = nextBodyPart;
+		auto cur = nextBodyPart;
 		while (cur){
 
 			if (cur->nextBodyPart && CheckCollisionRecs(cur->body, cur->nextBodyPart->body)){
 				partMovement = STOP;
 				break;
 			}
+
+			cur = cur->getNextBodyPart();
 		}
 	}
 
@@ -61,4 +63,13 @@ void SnakePart::update(){
 			break;
 	}
 
+}
+
+bool SnakePart::addBodyPart(std::shared_ptr<SnakePart> sb) {
+	if (!nextBodyPart && sb) {
+		nextBodyPart = sb;
+		return true;
+	}
+
+	return false;
 }
