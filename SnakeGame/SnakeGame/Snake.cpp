@@ -21,7 +21,6 @@ void Snake::draw() {
 }
 
 void Snake::update() {
-	Vector2 loc_dir_change = {-999, -999};
 	if (IsKeyPressed(KEY_W)) {
 		currentDirection = UP;
 	}
@@ -35,9 +34,22 @@ void Snake::update() {
 		currentDirection = RIGHT;
 	}
 
+	auto loc_change = head->getLocation();
+
+	if (currentDirection == RIGHT || currentDirection == UP) {
+		loc_change.y += .5;
+		loc_change.x += .5;
+	
+	}
+
+	if (currentDirection == LEFT || currentDirection == DOWN) {
+		loc_change.y -= .5;
+		loc_change.x -= .5;
+
+	}
 	auto cur = head;
 	while (cur) {
-		cur->setDirection(currentDirection, head->getLocation());
+		cur->setDirection(currentDirection, loc_change);
 		cur->update();
 		cur = cur->getNextBodyPart();
 	}
