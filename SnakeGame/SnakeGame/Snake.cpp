@@ -45,6 +45,26 @@ void Snake::addBodyPart(std::shared_ptr<SnakePart> sb) {
 	bool hasAdded = false;
 
 	auto cur = head;
+	while (cur) {
+		if (!head->getNextBodyPart()) {
+			switch (currentDirection) {
+			case LEFT:
+				break;
+			case RIGHT:
+				break;
+			case UP:
+				break;
+			case DOWN:
+				break;
+			default:
+				break;
+			}
+		}
+		cur = head->getNextBodyPart();
+	}
+
+	//get loc of tail;
+
 	while (!hasAdded) {
 		hasAdded = cur->addBodyPart(sb);
 		cur = head->getNextBodyPart();

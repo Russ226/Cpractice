@@ -64,6 +64,10 @@ void SnakePart::update(){
 	}
 
 }
+void SnakePart::updateCurrentLocation(Vector2 l) {
+	//TODO: add screen boundaries check
+	currentLocation = l;
+}
 
 bool SnakePart::addBodyPart(std::shared_ptr<SnakePart> sb) {
 	if (!nextBodyPart && sb) {

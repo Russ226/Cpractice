@@ -30,6 +30,7 @@ class SnakePart : public UIBehavior {
 		std::shared_ptr<SnakePart> getNextBodyPart();
 		bool addBodyPart(std::shared_ptr<SnakePart> sb);
 		void setDirection(Direction dir);
+		void updateCurrentLocation(Vector2 l);
 		void draw() override;
 		void update()override;
 };
