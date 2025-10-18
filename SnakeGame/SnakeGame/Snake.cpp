@@ -1,13 +1,14 @@
 #include "Snake.h"
 #include "raylib.h"
 
-Snake::Snake(int screenW, int screenH, float bodyPartS, float snakeS, Vector2 spawnPoint, Direction curDir) {
+Snake::Snake(int screenW, int screenH, int p, int bodyPartS, float snakeS, Vector2 spawnPoint, Direction curDir) {
 	this->screenHeight = screenH;
 	this->screenWidth = screenW;
 	this->bodyPartSize = bodyPartS;
 	this->currentDirection = curDir;
 	this->snakeSpeed = snakeS;
-	this->head = std::make_shared<SnakePart>(SnakePart(screenW, screenH, bodyPartS, snakeS, spawnPoint, true, nullptr, curDir));
+	this->padding = p;
+	this->head = std::make_shared<SnakePart>(SnakePart(screenW, screenH, bodyPartS, snakeS, spawnPoint, true, nullptr, nullptr, curDir));
 
 }
 
@@ -20,6 +21,7 @@ void Snake::draw() {
 }
 
 void Snake::update() {
+	Vector2 loc_dir_change = {-999, -999};
 	if (IsKeyPressed(KEY_W)) {
 		currentDirection = UP;
 	}
@@ -49,16 +51,39 @@ void Snake::addBodyPart(std::shared_ptr<SnakePart> sb) {
 		if (!head->getNextBodyPart()) {
 			switch (currentDirection) {
 			case LEFT:
+				{
+					auto parent_loc = cur->getLocation();
+					Vector2 child_loc = { cur->getLocation().x - bodyPartSize - padding  , cur->getLocation().y};
+					sb->setCurrentLocation(child_loc);
+				}
 				break;
 			case RIGHT:
+				{
+					auto parent_loc = cur->getLocation();
+					Vector2 child_loc = { cur->getLocation().x + bodyPartSize + padding  , cur->getLocation().y};
+					sb->setCurrentLocation(child_loc);
+				}
 				break;
 			case UP:
+				{
+					auto parent_loc = cur->getLocation();
+					Vector2 child_loc = { cur->getLocation().x, cur->getLocation().y - bodyPartSize - padding};
+					sb->setCurrentLocation(child_loc);
+				}
 				break;
 			case DOWN:
+				{
+					auto parent_loc = cur->getLocation();
+					Vector2 child_loc = { cur->getLocation().x  , cur->getLocation().y + bodyPartSize + padding};
+					sb->setCurrentLocation(child_loc);
+				}
 				break;
 			default:
 				break;
 			}
+
+
+			break;
 		}
 		cur = head->getNextBodyPart();
 	}
@@ -66,7 +91,8 @@ void Snake::addBodyPart(std::shared_ptr<SnakePart> sb) {
 	//get loc of tail;
 
 	while (!hasAdded) {
-		hasAdded = cur->addBodyPart(sb);
+		sb->addPrevBodyPart(cur);
+		hasAdded = cur->addNextBodyPart(sb);
 		cur = head->getNextBodyPart();
 	}
 
