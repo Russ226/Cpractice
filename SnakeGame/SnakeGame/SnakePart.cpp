@@ -13,6 +13,7 @@ SnakePart::SnakePart(int screenW, int screenH, int snakePartS, float snakeSp, Ve
 	this->nextBodyPart = nextBP;
 	this->prevBodyPart = prevBP;
 	this->partMovement = dir;
+	this->changeMovement = dir;
 	this->snakeSpeed = snakeSp;
 
 	this->changeDirectionAt = dir != STOP ? initialLoc : Vector2{-999, -999};
@@ -20,7 +21,7 @@ SnakePart::SnakePart(int screenW, int screenH, int snakePartS, float snakeSp, Ve
 }
 void SnakePart::setDirection(Direction dir, Vector2 cda) {
 	this->changeDirectionAt = cda;
-	this->partMovement = dir;
+	this->changeMovement = dir;
 }
 
 std::shared_ptr<SnakePart> SnakePart::getNextBodyPart() {
@@ -59,6 +60,13 @@ void SnakePart::update(){
 
 			cur = cur->getNextBodyPart();
 		}
+	}
+	if (!isHead && changeMovement != partMovement && currentLocation.x == changeDirectionAt.x && currentLocation.y == changeDirectionAt.y) {
+		partMovement = changeMovement;
+	}
+	
+	if (isHead) {
+		partMovement = changeMovement;
 	}
 
 	switch(partMovement) {

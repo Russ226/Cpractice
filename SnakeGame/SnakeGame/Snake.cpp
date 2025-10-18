@@ -37,7 +37,7 @@ void Snake::update() {
 
 	auto cur = head;
 	while (cur) {
-		cur->setDirection(currentDirection);
+		cur->setDirection(currentDirection, head->getLocation());
 		cur->update();
 		cur = cur->getNextBodyPart();
 	}
@@ -53,28 +53,28 @@ void Snake::addBodyPart(std::shared_ptr<SnakePart> sb) {
 			case LEFT:
 				{
 					auto parent_loc = cur->getLocation();
-					Vector2 child_loc = { cur->getLocation().x - bodyPartSize - padding  , cur->getLocation().y};
+					Vector2 child_loc = { cur->getLocation().x + bodyPartSize + padding  , cur->getLocation().y};
 					sb->setCurrentLocation(child_loc);
 				}
 				break;
 			case RIGHT:
 				{
 					auto parent_loc = cur->getLocation();
-					Vector2 child_loc = { cur->getLocation().x + bodyPartSize + padding  , cur->getLocation().y};
+					Vector2 child_loc = { cur->getLocation().x - bodyPartSize - padding  , cur->getLocation().y};
 					sb->setCurrentLocation(child_loc);
 				}
 				break;
 			case UP:
 				{
 					auto parent_loc = cur->getLocation();
-					Vector2 child_loc = { cur->getLocation().x, cur->getLocation().y - bodyPartSize - padding};
+					Vector2 child_loc = { cur->getLocation().x, cur->getLocation().y + bodyPartSize + padding};
 					sb->setCurrentLocation(child_loc);
 				}
 				break;
 			case DOWN:
 				{
 					auto parent_loc = cur->getLocation();
-					Vector2 child_loc = { cur->getLocation().x  , cur->getLocation().y + bodyPartSize + padding};
+					Vector2 child_loc = { cur->getLocation().x  , cur->getLocation().y - bodyPartSize - padding};
 					sb->setCurrentLocation(child_loc);
 				}
 				break;
@@ -91,8 +91,11 @@ void Snake::addBodyPart(std::shared_ptr<SnakePart> sb) {
 	//get loc of tail;
 
 	while (!hasAdded) {
-		sb->addPrevBodyPart(cur);
-		hasAdded = cur->addNextBodyPart(sb);
+		if (!head->getNextBodyPart()) {
+			sb->addPrevBodyPart(cur);
+			hasAdded = cur->addNextBodyPart(sb);
+		
+		}
 		cur = head->getNextBodyPart();
 	}
 

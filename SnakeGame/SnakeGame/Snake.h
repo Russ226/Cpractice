@@ -27,6 +27,7 @@ class SnakePart : public UIBehavior {
 		std::shared_ptr<SnakePart> nextBodyPart;
 		std::shared_ptr<SnakePart> prevBodyPart;
 		Direction partMovement;
+		Direction changeMovement;
 	public:
 		SnakePart(int screenW, int screenH, int snakePartS, float snakeSp,Vector2 initialLoc, bool isH, std::shared_ptr<SnakePart> nextBP, std::shared_ptr<SnakePart> prevBP, Direction dir);
 		std::shared_ptr<SnakePart> getNextBodyPart();
