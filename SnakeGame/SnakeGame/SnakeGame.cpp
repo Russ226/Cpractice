@@ -17,9 +17,15 @@ int main()
     h_loc.y = screenHeight / 2;
     auto node2_loc = Vector2{ 200, 400 };
     auto node2 = std::make_shared<SnakePart>(SnakePart(screenWidth, screenHeight, snakePartSize, snakeSpeed, node2_loc, false, nullptr, nullptr, RIGHT));
+    auto node3 = std::make_shared<SnakePart>(SnakePart(screenWidth, screenHeight, snakePartSize, snakeSpeed, node2_loc, false, nullptr, nullptr, RIGHT));
+    auto node4 = std::make_shared<SnakePart>(SnakePart(screenWidth, screenHeight, snakePartSize, snakeSpeed, node2_loc, false, nullptr, nullptr, RIGHT));
+    auto node5 = std::make_shared<SnakePart>(SnakePart(screenWidth, screenHeight, snakePartSize, snakeSpeed, node2_loc, false, nullptr, nullptr, RIGHT));
     
     auto snake = Snake(screenWidth, screenHeight, padding, snakePartSize, snakeSpeed, h_loc, RIGHT);
     snake.addBodyPart(node2);
+    snake.addBodyPart(node3);
+    //snake.addBodyPart(node4); 
+    //snake.addBodyPart(node5);
     SetTargetFPS(60);
     while (!WindowShouldClose())
     {

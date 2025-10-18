@@ -60,7 +60,7 @@ void Snake::addBodyPart(std::shared_ptr<SnakePart> sb) {
 
 	auto cur = head;
 	while (cur) {
-		if (!head->getNextBodyPart()) {
+		if (!cur->getNextBodyPart()) {
 			switch (currentDirection) {
 			case LEFT:
 				{
@@ -97,18 +97,18 @@ void Snake::addBodyPart(std::shared_ptr<SnakePart> sb) {
 
 			break;
 		}
-		cur = head->getNextBodyPart();
+		cur = cur->getNextBodyPart();
 	}
 
 	//get loc of tail;
 
 	while (!hasAdded) {
-		if (!head->getNextBodyPart()) {
+		if (!cur->getNextBodyPart()) {
 			sb->addPrevBodyPart(cur);
 			hasAdded = cur->addNextBodyPart(sb);
 		
 		}
-		cur = head->getNextBodyPart();
+		cur = cur->getNextBodyPart();
 	}
 
 }
