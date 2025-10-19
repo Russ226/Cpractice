@@ -13,18 +13,13 @@ SnakePart::SnakePart(int screenW, int screenH, int snakePartS, float snakeSp, Ve
 	this->nextBodyPart = nextBP;
 	this->prevBodyPart = prevBP;
 	this->partMovement = dir;
-	this->changeMovement = dir;
 	this->snakeSpeed = snakeSp;
 
-	this->changeDirectionAt = dir != STOP ? initialLoc : Vector2{-999, -999};
 
 }
-void SnakePart::setDirection(Direction dir, Vector2 cda) {
-	if (dir != partMovement) {
-		this->changeDirectionAt = cda;
-		this->changeMovement = dir;
+void SnakePart::setDirection(Direction dir) {
+	this->partMovement = dir;
 	
-	}
 }
 
 std::shared_ptr<SnakePart> SnakePart::getNextBodyPart() {
@@ -33,6 +28,10 @@ std::shared_ptr<SnakePart> SnakePart::getNextBodyPart() {
 
 std::shared_ptr<SnakePart> SnakePart::getPrevBodyPart() {
 	return prevBodyPart;
+}
+
+Direction SnakePart::getDirection() {
+	return partMovement;
 }
 
 void SnakePart::draw() {
@@ -51,29 +50,20 @@ void SnakePart::update(){
 		//to do: this doesn't work
 		while (cur){
 
-			if (cur->getNextBodyPart() && CheckCollisionRecs(cur->getRectangle(), cur->getNextBodyPart()->getRectangle())) {
+			if (cur->getNextBodyPart() && CheckCollisionRecs({ currentLocation.x, currentLocation.y, (float)snakePartSize, (float)snakePartSize }, 
+				{ cur->getNextBodyPart()->getLocation().x, cur->getNextBodyPart()->getLocation().x, (float)snakePartSize, (float)snakePartSize})) {
 				partMovement = STOP;
 				break;
 			}
 
-			if (cur->getPrevBodyPart() && CheckCollisionRecs(cur->getRectangle(), cur->getPrevBodyPart()->getRectangle())) {
+			if (cur->getPrevBodyPart() && CheckCollisionRecs({ currentLocation.x, currentLocation.y, (float)snakePartSize, (float)snakePartSize },
+				{ cur->getPrevBodyPart()->getLocation().x, cur->getPrevBodyPart()->getLocation().x, (float)snakePartSize, (float)snakePartSize })) {
 				partMovement = STOP;
 				break;
 			}
 
 			cur = cur->getNextBodyPart();
 		}
-	}
-	if (!isHead && changeMovement != partMovement && std::abs(currentLocation.x - changeDirectionAt.x) < 1 && (partMovement == LEFT || partMovement == RIGHT)) {
-		partMovement = changeMovement;
-	}
-
-	if (!isHead && changeMovement != partMovement && (partMovement == DOWN || partMovement == UP) && std::abs(currentLocation.y - changeDirectionAt.y) < 1) {
-		partMovement = changeMovement;
-	}
-
-	if (isHead) {
-		partMovement = changeMovement;
 	}
 
 	switch(partMovement) {
@@ -93,6 +83,9 @@ void SnakePart::update(){
 			break;
 	}
 
+	if (prevBodyPart && prevBodyPart->getDirection() != partMovement) {
+		partMovement = prevBodyPart->getDirection();
+	}
 }
 void SnakePart::setCurrentLocation(Vector2 l) {
 	//TODO: add screen boundaries check

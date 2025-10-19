@@ -21,22 +21,21 @@ class SnakePart : public UIBehavior {
 		float snakeSpeed;
 		Vector2 initialLocation;
 		Vector2 currentLocation;
-		Vector2 changeDirectionAt;
 		Rectangle body;
 		bool isHead;
 		std::shared_ptr<SnakePart> nextBodyPart;
 		std::shared_ptr<SnakePart> prevBodyPart;
 		Direction partMovement;
-		Direction changeMovement;
 	public:
 		SnakePart(int screenW, int screenH, int snakePartS, float snakeSp,Vector2 initialLoc, bool isH, std::shared_ptr<SnakePart> nextBP, std::shared_ptr<SnakePart> prevBP, Direction dir);
 		std::shared_ptr<SnakePart> getNextBodyPart();
 		std::shared_ptr<SnakePart> getPrevBodyPart();
 		bool addNextBodyPart(std::shared_ptr<SnakePart> sb);
 		bool addPrevBodyPart(std::shared_ptr<SnakePart> sb);
-		void setDirection(Direction dir, Vector2 cda);
+		void setDirection(Direction dir);
 		Vector2 getLocation();
 		Rectangle getRectangle();
+		Direction getDirection();
 		void setCurrentLocation(Vector2 l);
 		void draw() override;
 		void update()override;
