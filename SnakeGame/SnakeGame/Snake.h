@@ -15,6 +15,7 @@ enum Direction {
 // snake 
 class SnakePart : public UIBehavior {
 	private:
+		int turnDelay;
 		int screenWidth;
 		int screenHeight;
 		int snakePartSize;

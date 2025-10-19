@@ -1,3 +1,4 @@
+#include <iostream>
 #include "raylib.h"
 #include "Snake.h"
 
@@ -14,6 +15,7 @@ SnakePart::SnakePart(int screenW, int screenH, int snakePartS, float snakeSp, Ve
 	this->prevBodyPart = prevBP;
 	this->partMovement = dir;
 	this->snakeSpeed = snakeSp;
+	this->turnDelay = snakePartSize + 8;
 
 
 }
@@ -36,31 +38,28 @@ Direction SnakePart::getDirection() {
 
 void SnakePart::draw() {
 	DrawRectangleLines(currentLocation.x, currentLocation.y, snakePartSize, snakePartSize, isHead? RED:WHITE);
+	//DrawPixelV(currentLocation, PINK);
 }
 
 
 void SnakePart::update(){ 
 	//head check for collision
 	if (isHead) {
+		//std::cout << "current location is: x: " << currentLocation.x << " y: " << currentLocation.y << std::endl;
 		// use curren loc - the snake part size 
-		if ((currentLocation.x <= 0 && partMovement == LEFT) || (currentLocation.x >= screenWidth && partMovement == RIGHT)
-			|| (currentLocation.y <= 0 && partMovement == UP) || (currentLocation.y >= screenHeight && partMovement == DOWN)) partMovement = STOP;
+		if ((currentLocation.x - snakePartSize <= 0 && partMovement == LEFT) || (currentLocation.x + snakePartSize >= screenWidth && partMovement == RIGHT)
+			|| (currentLocation.y - snakePartSize <= 0 && partMovement == UP) || (currentLocation.y + snakePartSize >= screenHeight && partMovement == DOWN)) partMovement = STOP;
 
 		auto cur = nextBodyPart;
 		//to do: this doesn't work
 		while (cur){
 
 			if (cur->getNextBodyPart() && CheckCollisionRecs({ currentLocation.x, currentLocation.y, (float)snakePartSize, (float)snakePartSize }, 
-				{ cur->getNextBodyPart()->getLocation().x, cur->getNextBodyPart()->getLocation().x, (float)snakePartSize, (float)snakePartSize})) {
+				{ cur->getNextBodyPart()->getLocation().x, cur->getNextBodyPart()->getLocation().y, (float)snakePartSize, (float)snakePartSize})) {
 				partMovement = STOP;
 				break;
 			}
-
-			if (cur->getPrevBodyPart() && CheckCollisionRecs({ currentLocation.x, currentLocation.y, (float)snakePartSize, (float)snakePartSize },
-				{ cur->getPrevBodyPart()->getLocation().x, cur->getPrevBodyPart()->getLocation().x, (float)snakePartSize, (float)snakePartSize })) {
-				partMovement = STOP;
-				break;
-			}
+			
 
 			cur = cur->getNextBodyPart();
 		}
@@ -83,8 +82,27 @@ void SnakePart::update(){
 			break;
 	}
 
-	if (prevBodyPart && prevBodyPart->getDirection() != partMovement) {
+	if (prevBodyPart && prevBodyPart->getDirection() == STOP) {
 		partMovement = prevBodyPart->getDirection();
+		
+	}
+
+	if (prevBodyPart && prevBodyPart->getDirection() != partMovement && turnDelay == 0) {
+		partMovement = prevBodyPart->getDirection();
+		turnDelay = snakePartSize + 9;
+	}
+
+	if (prevBodyPart && prevBodyPart->getDirection() != partMovement) {
+		if (partMovement == STOP && (prevBodyPart->getDirection() == LEFT || prevBodyPart->getDirection() == RIGHT)) {
+			if (screenHeight - currentLocation.y < 20) {
+				partMovement = DOWN;
+			}
+
+			if (currentLocation.y < 20) {
+				partMovement = UP;
+			}
+		}
+		turnDelay--;
 	}
 }
 void SnakePart::setCurrentLocation(Vector2 l) {

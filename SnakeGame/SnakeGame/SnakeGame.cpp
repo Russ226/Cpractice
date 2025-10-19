@@ -16,12 +16,12 @@ int main()
     h_loc.x = screenWidth / 2;
     h_loc.y = screenHeight / 2;
     auto node2_loc = Vector2{ 200, 400 };
-    auto node2 = std::make_shared<SnakePart>(SnakePart(screenWidth, screenHeight, snakePartSize, snakeSpeed, node2_loc, false, nullptr, nullptr, RIGHT));
-    auto node3 = std::make_shared<SnakePart>(SnakePart(screenWidth-20, screenHeight - 20, snakePartSize, snakeSpeed, node2_loc, false, nullptr, nullptr, RIGHT));
-    auto node4 = std::make_shared<SnakePart>(SnakePart(screenWidth - 40, screenHeight - 40, snakePartSize, snakeSpeed, node2_loc, false, nullptr, nullptr, RIGHT));
-    auto node5 = std::make_shared<SnakePart>(SnakePart(screenWidth - 80, screenHeight - 80, snakePartSize, snakeSpeed, node2_loc, false, nullptr, nullptr, RIGHT));
+    auto node2 = std::make_shared<SnakePart>(SnakePart(screenWidth, screenHeight, snakePartSize, snakeSpeed, node2_loc, false, nullptr, nullptr, UP));
+    auto node3 = std::make_shared<SnakePart>(SnakePart(screenWidth-20, screenHeight - 20, snakePartSize, snakeSpeed, node2_loc, false, nullptr, nullptr, UP));
+    auto node4 = std::make_shared<SnakePart>(SnakePart(screenWidth - 40, screenHeight - 40, snakePartSize, snakeSpeed, node2_loc, false, nullptr, nullptr, UP));
+    auto node5 = std::make_shared<SnakePart>(SnakePart(screenWidth - 80, screenHeight - 80, snakePartSize, snakeSpeed, node2_loc, false, nullptr, nullptr, UP));
     
-    auto snake = Snake(screenWidth, screenHeight, padding, snakePartSize, snakeSpeed, h_loc, RIGHT);
+    auto snake = Snake(screenWidth, screenHeight, padding, snakePartSize, snakeSpeed, h_loc, UP);
     snake.addBodyPart(node2);
     snake.addBodyPart(node3);
     //snake.addBodyPart(node4); 
