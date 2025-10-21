@@ -44,11 +44,18 @@ void SnakePart::draw() {
 
 void SnakePart::update(){ 
 	//head check for collision
+		
+	if ((currentLocation.x - snakePartSize <= 0 && partMovement == LEFT) || (currentLocation.x + snakePartSize >= screenWidth && partMovement == RIGHT)
+		|| (currentLocation.y - snakePartSize <= 0 && partMovement == UP) || (currentLocation.y + snakePartSize >= screenHeight && partMovement == DOWN))
+	{
+		partMovement = STOP;
+		if (prevBodyPart) {
+			partMovement = prevBodyPart->getDirection();
+		}
+	}
 	if (isHead) {
 		//std::cout << "current location is: x: " << currentLocation.x << " y: " << currentLocation.y << std::endl;
 		// use curren loc - the snake part size 
-		if ((currentLocation.x - snakePartSize <= 0 && partMovement == LEFT) || (currentLocation.x + snakePartSize >= screenWidth && partMovement == RIGHT)
-			|| (currentLocation.y - snakePartSize <= 0 && partMovement == UP) || (currentLocation.y + snakePartSize >= screenHeight && partMovement == DOWN)) partMovement = STOP;
 
 		auto cur = nextBodyPart;
 		//to do: this doesn't work
@@ -81,29 +88,20 @@ void SnakePart::update(){
 		default:
 			break;
 	}
+	if (prevBodyPart) {
 
-	if (prevBodyPart && prevBodyPart->getDirection() == STOP) {
-		partMovement = prevBodyPart->getDirection();
-		
-	}
-
-	if (prevBodyPart && prevBodyPart->getDirection() != partMovement && turnDelay == 0) {
-		partMovement = prevBodyPart->getDirection();
-		turnDelay = snakePartSize + 9;
-	}
-
-	if (prevBodyPart && prevBodyPart->getDirection() != partMovement) {
-		if (partMovement == STOP && (prevBodyPart->getDirection() == LEFT || prevBodyPart->getDirection() == RIGHT)) {
-			if (screenHeight - currentLocation.y < 20) {
-				partMovement = DOWN;
-			}
-
-			if (currentLocation.y < 20) {
-				partMovement = UP;
-			}
+		auto prevDir = prevBodyPart->getDirection();
+		auto dx = std::abs(prevBodyPart->getLocation().x - currentLocation.x) < .1;
+		auto dy = std::abs(prevBodyPart->getLocation().y - currentLocation.y) < .1;
+		if (prevDir != partMovement && ((dy && (prevDir == RIGHT || prevDir == LEFT) && !dx) || (dx && (prevDir == UP || prevDir == DOWN) && !dy))) {
+			partMovement = prevBodyPart->getDirection();
 		}
-		turnDelay--;
+
+		if (prevDir == STOP) {
+			partMovement = STOP;
+		}
 	}
+	
 }
 void SnakePart::setCurrentLocation(Vector2 l) {
 	//TODO: add screen boundaries check
