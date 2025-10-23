@@ -49,9 +49,6 @@ void SnakePart::update(){
 		|| (currentLocation.y - snakePartSize <= 0 && partMovement == UP) || (currentLocation.y + snakePartSize >= screenHeight && partMovement == DOWN))
 	{
 		partMovement = STOP;
-		if (prevBodyPart) {
-			partMovement = prevBodyPart->getDirection();
-		}
 	}
 	if (isHead) {
 		//std::cout << "current location is: x: " << currentLocation.x << " y: " << currentLocation.y << std::endl;
@@ -72,60 +69,61 @@ void SnakePart::update(){
 		}
 	}
 
-	switch(partMovement) {
-		case LEFT:
-			currentLocation.x -= (snakeSpeed * GetFrameTime());
-			break;
-		case RIGHT:
-			currentLocation.x += (snakeSpeed * GetFrameTime());
-			break;
-		case UP:
-			currentLocation.y -= (snakeSpeed * GetFrameTime());
-			break;
-		case DOWN:
-			currentLocation.y += (snakeSpeed * GetFrameTime());
-			break;
-		default:
-			break;
+	if (isHead) {
+		switch(partMovement) {
+			case LEFT:
+				currentLocation.x -= (snakeSpeed * GetFrameTime());
+				break;
+			case RIGHT:
+				currentLocation.x += (snakeSpeed * GetFrameTime());
+				break;
+			case UP:
+				currentLocation.y -= (snakeSpeed * GetFrameTime());
+				break;
+			case DOWN:
+				currentLocation.y += (snakeSpeed * GetFrameTime());
+				break;
+			default:
+				break;
+		}
 	}
 	if (prevBodyPart) {
-
-		auto prevDir = prevBodyPart->getDirection();
-		auto dx = std::abs(prevBodyPart->getLocation().x - currentLocation.x) < .1;
-		auto dy = std::abs(prevBodyPart->getLocation().y - currentLocation.y) < .1;
-		if (prevDir != partMovement && ((dy && (prevDir == RIGHT || prevDir == LEFT) && !dx) || (dx && (prevDir == UP || prevDir == DOWN) && !dy))) {
-			partMovement = prevBodyPart->getDirection();
-		}
-
-		if (prevDir == STOP) {
+		if (prevBodyPart->getDirection() == STOP) {
 			partMovement = STOP;
 		}
+		else {
 
-		if (partMovement == STOP && prevDir != STOP) {
-			if (prevDir == RIGHT || prevDir == LEFT) {
-				auto top = std::abs(currentLocation.y - 0);
-				auto bottom = std::abs(currentLocation.y - screenHeight);
-
-				if (std::min(top, bottom) == top) {
-					partMovement = UP;
+			switch (prevBodyPart->getDirection()) {
+				case LEFT:
+					{
+						currentLocation = Vector2{ prevBodyPart->getLocation().x + 10, prevBodyPart->getLocation().y};
+						partMovement = prevBodyPart->getDirection();
+					}
+					break;
+				case RIGHT:
+					{
+						currentLocation = Vector2{ prevBodyPart->getLocation().x - 10, prevBodyPart->getLocation().y };
+						partMovement = prevBodyPart->getDirection();
+					}
+					break;
+				case UP:
+					{
+						currentLocation = Vector2{ prevBodyPart->getLocation().x, prevBodyPart->getLocation().y + 10 };
+						partMovement = prevBodyPart->getDirection();
+					}
+					break;
+				case DOWN:
+					{
+						currentLocation = Vector2{ prevBodyPart->getLocation().x, prevBodyPart->getLocation().y - 10 };
+						partMovement = prevBodyPart->getDirection();
+					}
+					break;
+				default:
+					break;
 				}
-				else {
-					partMovement = DOWN;
-				}
-			}
-
-			if (prevDir == UP || prevDir == DOWN) {
-				auto left = std::abs(currentLocation.x - 0);
-				auto right = std::abs(currentLocation.x - screenHeight);
-
-				if (std::min(left, right) == left) {
-					partMovement = LEFT;
-				}
-				else {
-					partMovement = RIGHT;
-				}
-			}
+			
 		}
+		
 	}
 	
 }
