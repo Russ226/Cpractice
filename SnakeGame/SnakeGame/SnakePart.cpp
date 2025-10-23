@@ -100,6 +100,32 @@ void SnakePart::update(){
 		if (prevDir == STOP) {
 			partMovement = STOP;
 		}
+
+		if (partMovement == STOP && prevDir != STOP) {
+			if (prevDir == RIGHT || prevDir == LEFT) {
+				auto top = std::abs(currentLocation.y - 0);
+				auto bottom = std::abs(currentLocation.y - screenHeight);
+
+				if (std::min(top, bottom) == top) {
+					partMovement = UP;
+				}
+				else {
+					partMovement = DOWN;
+				}
+			}
+
+			if (prevDir == UP || prevDir == DOWN) {
+				auto left = std::abs(currentLocation.x - 0);
+				auto right = std::abs(currentLocation.x - screenHeight);
+
+				if (std::min(left, right) == left) {
+					partMovement = LEFT;
+				}
+				else {
+					partMovement = RIGHT;
+				}
+			}
+		}
 	}
 	
 }
