@@ -16,7 +16,29 @@
  */
 int bitmap_find_first_bit(unsigned char * bitmap, int size, int val)
 {
-	/* Your code here */
+	int pos = 0;
+    int total_bits = size * BIT_PER_BYTE;
+    unsigned char current_byte = 0;
+
+    if (NULL == bitmap)
+    {
+        printf("ERROR: NULL bit map!\n");
+        return BITMAP_OP_ERROR;
+    }
+
+    while (pos < total_bits)
+    {
+        int v = 0;
+        
+        current_byte = *(bitmap + pos/BIT_PER_BYTE);
+        v = ((current_byte >> pos % BIT_PER_BYTE) & 0x01) != 0;
+        if(v == val){
+            return pos;
+        }
+        pos++;
+    }
+
+    return BITMAP_OP_NOT_FOUND;
 }
 
 /*
@@ -29,7 +51,17 @@ int bitmap_find_first_bit(unsigned char * bitmap, int size, int val)
  */
 int bitmap_set_bit(unsigned char * bitmap, int size, int target_pos)
 {
-    /* Your code here */
+     int total_bits = size * BIT_PER_BYTE;
+
+    if (NULL == bitmap)
+    {
+        printf("ERROR: NULL bit map!\n");
+        return BITMAP_OP_ERROR;
+    }
+
+   *(bitmap + target_pos/BIT_PER_BYTE) = *(bitmap + target_pos/BIT_PER_BYTE) | 0x01 << target_pos;
+
+    return BITMAP_OP_SUCCEED;
 }
 
 /*
@@ -42,7 +74,17 @@ int bitmap_set_bit(unsigned char * bitmap, int size, int target_pos)
  */
 int bitmap_clear_bit(unsigned char * bitmap, int size, int target_pos)
 {
-    /* Your code here */
+    int total_bits = size * BIT_PER_BYTE;
+
+    if (NULL == bitmap)
+    {
+        printf("ERROR: NULL bit map!\n");
+        return BITMAP_OP_ERROR;
+    }
+
+   *(bitmap + target_pos/BIT_PER_BYTE) = *(bitmap + target_pos/BIT_PER_BYTE) ^ 0x01 << target_pos;
+
+    return BITMAP_OP_SUCCEED;
 }
 
 
@@ -56,7 +98,17 @@ int bitmap_clear_bit(unsigned char * bitmap, int size, int target_pos)
  */
 int bitmap_bit_is_set(unsigned char * bitmap, int size, int pos)
 {
-    /* Your code here */
+    int total_bits = size * BIT_PER_BYTE;
+
+    if (NULL == bitmap)
+    {
+        printf("ERROR: NULL bit map!\n");
+        return BITMAP_OP_ERROR;
+    }
+
+    unsigned char current_byte = *(bitmap + pos/BIT_PER_BYTE);
+    return ((current_byte >> pos % BIT_PER_BYTE) & 0x01);
+
 }
 
 /*
