@@ -19,6 +19,7 @@ class SnakePart : public UIBehavior {
 		int screenWidth;
 		int screenHeight;
 		int snakePartSize;
+		int padding;
 		float snakeSpeed;
 		Vector2 initialLocation;
 		Vector2 currentLocation;
@@ -28,7 +29,7 @@ class SnakePart : public UIBehavior {
 		std::shared_ptr<SnakePart> prevBodyPart;
 		Direction partMovement;
 	public:
-		SnakePart(int screenW, int screenH, int snakePartS, float snakeSp,Vector2 initialLoc, bool isH, std::shared_ptr<SnakePart> nextBP, std::shared_ptr<SnakePart> prevBP, Direction dir);
+		SnakePart(int screenW, int screenH, int snakePartS, int p, float snakeSp,Vector2 initialLoc, bool isH, std::shared_ptr<SnakePart> nextBP, std::shared_ptr<SnakePart> prevBP, Direction dir);
 		std::shared_ptr<SnakePart> getNextBodyPart();
 		std::shared_ptr<SnakePart> getPrevBodyPart();
 		bool addNextBodyPart(std::shared_ptr<SnakePart> sb);

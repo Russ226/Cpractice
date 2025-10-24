@@ -8,7 +8,7 @@ Snake::Snake(int screenW, int screenH, int p, int bodyPartS, float snakeS, Vecto
 	this->currentDirection = curDir;
 	this->snakeSpeed = snakeS;
 	this->padding = p;
-	this->head = std::make_shared<SnakePart>(SnakePart(screenW, screenH, bodyPartS, snakeS, spawnPoint, true, nullptr, nullptr, curDir));
+	this->head = std::make_shared<SnakePart>(SnakePart(screenW, screenH, p, bodyPartS, snakeS, spawnPoint, true, nullptr, nullptr, curDir));
 
 }
 
@@ -36,11 +36,7 @@ void Snake::update() {
 
 	head->setDirection(currentDirection);
 
-	auto cur = head;
-	while (cur) {
-		cur->update();
-		cur = cur->getNextBodyPart();
-	}
+	head->update();
 }
 
 void Snake::addBodyPart(std::shared_ptr<SnakePart> sb) {
