@@ -15,9 +15,8 @@ void printMatrix(int m[SIZE][SIZE]){
 
 void printPath(int P[SIZE][SIZE], int i, int j){
     if(P[i][j] != 0){
-        int t = P[i][j];
         printPath(P, i, P[i][j]);
-        std::cout << "V: " << P[i][j] << " " << std::endl;
+        std::cout << "V: " << P[i][j] << std::endl;
         printPath(P, P[i][j], j);
     }
 }
@@ -48,23 +47,40 @@ int main(){
             for(int j = 0; j < SIZE; j++){
                 if(D[k - 1][i][j] > D[k - 1][i][k] + D[k - 1][k][j]){
                     D[k][i][j] = D[k - 1][i][k] + D[k - 1][k][j];
-                    P[i][j] = k - 1;
+                    P[i][j] = k;
                 }else{
                     D[k][i][j] = D[k - 1][i][j];
                 }
             }
         }
-    }
-    std::cout << "D Matrix: " << std::endl;
-    for(int i = 0; i < SIZE; i++){
-        
-        printMatrix(D[i]);
+        std::cout << "At k =  " << k << std::endl;
+        std::cout << "D Matrix: " << std::endl;
+        for(int i = 0; i < SIZE; i++){
+            for(int j = 0; j < SIZE; j++){
+                std::cout << D[k][i][j]  << " ";
+            }
+            std::cout << std::endl;
+        }
+
+        std::cout << "p Matrix: " << std::endl;
+        for(int i = 0; i < SIZE; i++){
+            for(int j = 0; j < SIZE; j++){
+                std::cout << P[i][j]  << " ";
+            }
+            std::cout << std::endl;
+        }
         std::cout << std::endl;
     }
+    // std::cout << "D Matrix: " << std::endl;
+    // for(int i = 0; i < SIZE; i++){
+        
+    //     printMatrix(D[i]);
+    //     std::cout << std::endl;
+    // }
 
-    std::cout << "P Matrix: " << std::endl;
-    printMatrix(P);
+    // std::cout << "P Matrix: " << std::endl;
+    // printMatrix(P);
     
-    //printPath(P, 0, 2);
+    //printPath(P, 6, 2);
     return 0;
 }
