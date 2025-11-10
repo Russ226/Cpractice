@@ -18,15 +18,12 @@ int main(){
      printf("\n");
     unsigned char mask_1 = 0xFF;
     unsigned char mask_2 = 0x80;
-    unsigned char test[] = {0x00, 0xfF};
-    
-    //unsigned char m[] = {0x1 << 4};  
-    bitmap_print_bitmap(test, 1);
-    //*(test + 3/BIT_PER_BYTE) = *(test + 3/BIT_PER_BYTE) ^ 0x01 << 3;
-    *(test + 3/BIT_PER_BYTE) = *(test + 3/BIT_PER_BYTE) | 0x01 << 3;
-    bitmap_print_bitmap(test, 1);
-    //int current_byte = *(test + 2/BIT_PER_BYTE);
-    //int v = ((0x80 >> 7 % BIT_PER_BYTE) & 0x01);
-    //printf("%d", v);
+    unsigned char test[] = {0xff, 0x00, 0x00, 0x00};
+     unsigned char f = 0x1 << 8;
+    bitmap_print_bitmap(test, 4);
+    bitmap_set_bit(test, 4, 15);
+    int t = bitmap_bit_is_set(test, 4, 1);
+    printf("%d\n", t);
+    bitmap_print_bitmap(test, 4);
     return 0;
 }

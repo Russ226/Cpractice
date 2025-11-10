@@ -59,7 +59,12 @@ int bitmap_set_bit(unsigned char * bitmap, int size, int target_pos)
         return BITMAP_OP_ERROR;
     }
 
-   *(bitmap + target_pos/BIT_PER_BYTE) = *(bitmap + target_pos/BIT_PER_BYTE) | 0x01 << target_pos;
+    if(target_pos < 0 || target_pos > total_bits - 1){
+        printf("ERROR: Index out of range!\n");
+        return BITMAP_OP_ERROR;
+    }
+
+   *(bitmap + target_pos/BIT_PER_BYTE) = *(bitmap + target_pos/BIT_PER_BYTE) | 0x01 << target_pos%BIT_PER_BYTE;
 
     return BITMAP_OP_SUCCEED;
 }
@@ -82,7 +87,12 @@ int bitmap_clear_bit(unsigned char * bitmap, int size, int target_pos)
         return BITMAP_OP_ERROR;
     }
 
-   *(bitmap + target_pos/BIT_PER_BYTE) = *(bitmap + target_pos/BIT_PER_BYTE) ^ 0x01 << target_pos;
+    if(target_pos < 0 || target_pos > total_bits - 1){
+        printf("ERROR: Index out of range!\n");
+        return BITMAP_OP_ERROR;
+    }
+
+   *(bitmap + target_pos/BIT_PER_BYTE) = *(bitmap + target_pos/BIT_PER_BYTE) ^ 0x01 << target_pos%BIT_PER_BYTE;
 
     return BITMAP_OP_SUCCEED;
 }
@@ -103,6 +113,11 @@ int bitmap_bit_is_set(unsigned char * bitmap, int size, int pos)
     if (NULL == bitmap)
     {
         printf("ERROR: NULL bit map!\n");
+        return BITMAP_OP_ERROR;
+    }
+
+    if(pos < 0 || pos > total_bits){
+        printf("ERROR: Index out of range!\n");
         return BITMAP_OP_ERROR;
     }
 
