@@ -123,7 +123,27 @@ int add_function(char *func_name){
 
 void destory_registery(){
     if(funcs != NULL){
-        
+        struct Registery cur = funcs->head;
+        struct Registery next = funcs->head->next;
+
+        if(next != NULL){
+            while(next != NULL){
+                free(cur->name);
+                free(cur->function);
+                free(cur);
+                cur = next;
+                next = cur->next;
+            }
+        }
+
+        free(cur->name);
+        free(cur->function);
+        free(cur);
+        free(funcs);
+    }
+
+    if(dl_handler != null){
+        dlclose(dl_handler);
     }
 }
 
